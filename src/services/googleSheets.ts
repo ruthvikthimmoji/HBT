@@ -8,6 +8,18 @@ export interface SyncPayload {
   payments: Payment[];
 }
 
+export async function triggerSetupGoogleSheet(webAppUrl: string): Promise<string> {
+  if (!webAppUrl || !webAppUrl.trim()) throw new Error('Web App URL is required.');
+  const cleanUrl = webAppUrl.trim();
+  const targetUrl = `${cleanUrl}${cleanUrl.includes('?') ? '&' : '?'}action=setup`;
+
+  const res = await fetch(targetUrl);
+  if (!res.ok) throw new Error(`HTTP error ${res.status}`);
+  const json = await res.json();
+  if (!json.success) throw new Error(json.error || 'Failed to setup sheets');
+  return json.message || 'Spreadsheet structure created successfully!';
+}
+
 export async function pingGoogleSheets(webAppUrl: string): Promise<{ success: boolean; message: string; sheetName?: string }> {
   if (!webAppUrl || !webAppUrl.trim()) {
     throw new Error('Google Apps Script URL is empty.');
