@@ -6,6 +6,7 @@ import {
   Worker,
   Payment,
   PersonBalance,
+  UnifiedLog,
 } from './types';
 import {
   getInitialData,
@@ -17,14 +18,17 @@ import {
 } from './utils/storage';
 import { computeFinancialSummary } from './utils/calculations';
 import { exportToExcel } from './utils/excelExport';
-import { syncAllToGoogleSheets, fetchFromGoogleSheets } from './services/googleSheets';
+import { syncAllToGoogleSheets } from './services/googleSheets';
 
 import { Header } from './components/Header';
-import { NavigationTabs, TabType } from './components/NavigationTabs';
+import { BottomNav, MainTabType } from './components/BottomNav';
 import { SummaryTab } from './components/SummaryTab';
 import { ExpensesTab } from './components/ExpensesTab';
 import { AttendanceTab } from './components/AttendanceTab';
 import { PaymentsTab } from './components/PaymentsTab';
+import { FullLogsView } from './components/FullLogsView';
+import { LogDetailDrawer } from './components/LogDetailDrawer';
+import { QuickActionDrawer } from './components/QuickActionDrawer';
 import { SettingsModal } from './components/SettingsModal';
 import { EditModal } from './components/EditModal';
 import { PhotoModal } from './components/PhotoModal';
@@ -39,13 +43,15 @@ export const App: React.FC = () => {
   const [workers, setWorkers] = useState<Worker[]>(initial.workers);
   const [payments, setPayments] = useState<Payment[]>(initial.payments);
 
-  // Active navigation tab
-  const [activeTab, setActiveTab] = useState<TabType>('summary');
+  // Active navigation tab (mobile-first)
+  const [activeTab, setActiveTab] = useState<MainTabType>('summary');
 
-  // Quick Pay bridge (when user taps "Record payment" in Summary dues list)
+  // Quick Pay bridge
   const [prefilledPayee, setPrefilledPayee] = useState<PersonBalance | null>(null);
 
-  // Modals state
+  // Modals and Drawers
+  const [isQuickActionOpen, setIsQuickActionOpen] = useState(false);
+  const [selectedLogForDetail, setSelectedLogForDetail] = useState<UnifiedLog | null>(null);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [photoModalState, setPhotoModalState] = useState<{ url: string; caption: string } | null>(null);
   const [editModalState, setEditModalState] = useState<{
@@ -95,7 +101,7 @@ export const App: React.FC = () => {
     return computeFinancialSummary(settings, expenses, logs, workers, payments);
   }, [settings, expenses, logs, workers, payments]);
 
-  // Count of pending dues for badge in payments tab
+  // Count of pending dues for badge in payments/logs tab
   const pendingDueCount = useMemo(() => {
     return summary.personBalances.filter((p) => p.status === 'Due').length;
   }, [summary]);
@@ -119,7 +125,7 @@ export const App: React.FC = () => {
       };
       setSettings(updatedSettings);
     } catch (err) {
-      console.error('Auto sync to Google Sheets failed:', err);
+      console.error('Sync to Google Sheets failed:', err);
       throw err;
     }
   }, [settings, expenses, workers, logs, payments]);
@@ -133,7 +139,6 @@ export const App: React.FC = () => {
     };
     setExpenses((prev) => [created, ...prev]);
 
-    // Optional background sync if connected
     if (settings.gasWebAppUrl) {
       handleSyncToCloud().catch(() => {});
     }
@@ -255,12 +260,92 @@ export const App: React.FC = () => {
     localStorage.clear();
   };
 
+  // Log Inspector Helpers
+  const handleOpenExpenseDetail = (exp: Expense) => {
+    setSelectedLogForDetail({
+      id: exp.id,
+      type: 'expense',
+      date: exp.date,
+      title: exp.item,
+      subtitle: exp.vendor ? `Vendor: ${exp.vendor}` : exp.category,
+      amount: Number(exp.amount) || 0,
+      category: exp.category,
+      vendorOrWorker: exp.vendor,
+      note: exp.note,
+      photoUrl: exp.photoReceipt,
+      rawItem: exp,
+    });
+  };
+
+  const handleOpenPaymentDetail = (payment: Payment) => {
+    setSelectedLogForDetail({
+      id: payment.id,
+      type: 'payment',
+      date: payment.date,
+      title: `Payment to ${payment.payee}`,
+      subtitle: `Paid via ${payment.mode}${payment.note ? ` • ${payment.note}` : ''}`,
+      amount: Number(payment.amount) || 0,
+      paymentMode: payment.mode,
+      statusBadge: 'Settled',
+      vendorOrWorker: payment.payee,
+      note: payment.note,
+      photoUrl: payment.photoProof,
+      rawItem: payment,
+    });
+  };
+
+  const handleOpenAttendanceDetail = (l: DailyLog) => {
+    const statusLabel =
+      l.status === 'full' ? 'Full Day' : l.status === 'half' ? 'Half Day' : 'Absent';
+    setSelectedLogForDetail({
+      id: l.id,
+      type: 'attendance',
+      date: l.date,
+      title: `${l.workerName} (${statusLabel})`,
+      subtitle: `Wage credited for ${l.date}`,
+      amount: Number(l.wage) || 0,
+      category: 'Labour (daily wages)',
+      statusBadge: statusLabel,
+      vendorOrWorker: l.workerName,
+      note: l.note,
+      rawItem: l,
+    });
+  };
+
+  const handleDeleteFromDrawer = (unified: UnifiedLog) => {
+    if (unified.type === 'expense') {
+      handleDeleteExpense(unified.id);
+    } else if (unified.type === 'payment') {
+      handleDeletePayment(unified.id);
+    } else if (unified.type === 'attendance') {
+      setLogs((prev) => prev.filter((l) => l.id !== unified.id));
+      if (settings.gasWebAppUrl) handleSyncToCloud().catch(() => {});
+    }
+  };
+
+  const handleEditFromDrawer = (unified: UnifiedLog) => {
+    if (unified.type === 'expense') {
+      handleEditExpense(unified.rawItem as Expense);
+    } else if (unified.type === 'payment') {
+      handleEditPayment(unified.rawItem as Payment);
+    }
+  };
+
+  const openTrackerSheet = () => {
+    window.open(
+      settings.sheetUrl ||
+        'https://docs.google.com/spreadsheets/d/1L6LaIz140FAXVm6Up-lSQ6RygOuHZtYuEd12kuqjMfk/edit',
+      '_blank'
+    );
+  };
+
   return (
     <div className="min-h-screen bg-plaster dark:bg-[#17150F] flex flex-col transition-colors selection:bg-[#FBEEE5] selection:text-terracotta">
-      {/* Header with Sync Status and Navigation */}
+      {/* Top Mobile Header */}
       <Header
         projectName={settings.projectName}
         isSynced={Boolean(settings.gasWebAppUrl && settings.lastSyncedAt)}
+        sheetUrl={settings.sheetUrl}
         lastSyncedAt={settings.lastSyncedAt}
         isDark={isDark}
         onToggleTheme={() => setIsDark(!isDark)}
@@ -268,20 +353,15 @@ export const App: React.FC = () => {
         onExportExcel={handleExportExcel}
       />
 
-      {/* Main Tabs Navigation */}
-      <NavigationTabs
-        activeTab={activeTab}
-        onChangeTab={setActiveTab}
-        pendingDueCount={pendingDueCount}
-      />
-
-      {/* Main Responsive Content Container (Max 900px centered as per PRD Section 17) */}
+      {/* Main Responsive Content */}
       <main className="flex-1 max-w-[900px] w-full mx-auto p-4 sm:p-5">
         {activeTab === 'summary' && (
           <SummaryTab
             summary={summary}
             onOpenSettings={() => setIsSettingsOpen(true)}
             onQuickPay={handleQuickPayFromSummary}
+            onViewAllLogs={() => setActiveTab('fulllogs')}
+            onOpenSheet={openTrackerSheet}
           />
         )}
 
@@ -292,6 +372,7 @@ export const App: React.FC = () => {
             onEditExpense={handleEditExpense}
             onDeleteExpense={handleDeleteExpense}
             onViewPhoto={(url, caption) => setPhotoModalState({ url, caption })}
+            onSelectExpense={handleOpenExpenseDetail}
           />
         )}
 
@@ -303,6 +384,7 @@ export const App: React.FC = () => {
             onAddWorker={handleAddWorker}
             onEditWorker={handleEditWorker}
             onDeleteWorker={handleDeleteWorker}
+            onSelectLog={handleOpenAttendanceDetail}
           />
         )}
 
@@ -317,11 +399,51 @@ export const App: React.FC = () => {
             onEditPayment={handleEditPayment}
             onDeletePayment={handleDeletePayment}
             onViewPhoto={(url, caption) => setPhotoModalState({ url, caption })}
+            onSelectPayment={handleOpenPaymentDetail}
+          />
+        )}
+
+        {activeTab === 'fulllogs' && (
+          <FullLogsView
+            expenses={expenses}
+            logs={logs}
+            payments={payments}
+            onSelectLog={(log) => setSelectedLogForDetail(log)}
+            onOpenSheet={openTrackerSheet}
           />
         )}
       </main>
 
-      {/* Modals */}
+      {/* Mobile Bottom Navigation Bar */}
+      <BottomNav
+        activeTab={activeTab}
+        onChangeTab={setActiveTab}
+        onOpenQuickAction={() => setIsQuickActionOpen(true)}
+        pendingDueCount={pendingDueCount}
+      />
+
+      {/* Quick Action Drawer */}
+      <QuickActionDrawer
+        isOpen={isQuickActionOpen}
+        onClose={() => setIsQuickActionOpen(false)}
+        onSelectAction={(action) => {
+          if (action === 'expense') setActiveTab('expenses');
+          else if (action === 'attendance') setActiveTab('attendance');
+          else if (action === 'payment') setActiveTab('payments');
+        }}
+      />
+
+      {/* Full Log Details Drawer (The requested feature!) */}
+      <LogDetailDrawer
+        log={selectedLogForDetail}
+        isOpen={Boolean(selectedLogForDetail)}
+        onClose={() => setSelectedLogForDetail(null)}
+        onEdit={handleEditFromDrawer}
+        onDelete={handleDeleteFromDrawer}
+        onViewPhoto={(url, caption) => setPhotoModalState({ url, caption })}
+      />
+
+      {/* Settings Modal */}
       <SettingsModal
         settings={settings}
         summary={summary}
@@ -334,6 +456,7 @@ export const App: React.FC = () => {
         onClearAllData={handleClearAllData}
       />
 
+      {/* Edit Entry Modal */}
       <EditModal
         type={editModalState.type}
         item={editModalState.item}
@@ -342,6 +465,7 @@ export const App: React.FC = () => {
         onSavePayment={handleSaveEditedPayment}
       />
 
+      {/* Photo / Receipt Lightbox */}
       <PhotoModal
         photoUrl={photoModalState ? photoModalState.url : null}
         caption={photoModalState ? photoModalState.caption : undefined}

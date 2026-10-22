@@ -22,6 +22,7 @@ interface AttendanceTabProps {
   onAddWorker: (worker: Omit<Worker, 'id'>) => void;
   onEditWorker: (worker: Worker) => void;
   onDeleteWorker: (id: string) => void;
+  onSelectLog?: (log: DailyLog) => void;
 }
 
 export const AttendanceTab: React.FC<AttendanceTabProps> = ({
@@ -31,6 +32,7 @@ export const AttendanceTab: React.FC<AttendanceTabProps> = ({
   onAddWorker,
   onEditWorker,
   onDeleteWorker,
+  onSelectLog,
 }) => {
   const [selectedDate, setSelectedDate] = useState(getTodayDateString());
   const [isWorkerModalOpen, setIsWorkerModalOpen] = useState(false);
@@ -166,7 +168,7 @@ export const AttendanceTab: React.FC<AttendanceTabProps> = ({
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 pb-20">
       {/* 1. Date Navigation & Today's Attendance Overview */}
       <div className="hbt-card">
         <div className="flex items-center justify-between gap-2 mb-3">

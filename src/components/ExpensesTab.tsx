@@ -10,6 +10,7 @@ interface ExpensesTabProps {
   onEditExpense: (expense: Expense) => void;
   onDeleteExpense: (id: string) => void;
   onViewPhoto: (photoUrl: string, caption: string) => void;
+  onSelectExpense?: (expense: Expense) => void;
 }
 
 export const ExpensesTab: React.FC<ExpensesTabProps> = ({
@@ -18,6 +19,7 @@ export const ExpensesTab: React.FC<ExpensesTabProps> = ({
   onEditExpense,
   onDeleteExpense,
   onViewPhoto,
+  onSelectExpense,
 }) => {
   const [date, setDate] = useState(getTodayDateString());
   const [category, setCategory] = useState('Cement & Steel');
@@ -133,7 +135,7 @@ export const ExpensesTab: React.FC<ExpensesTabProps> = ({
   }, [expenses, selectedCategoryFilter, searchQuery]);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 pb-20">
       {/* 1. Quick Expense Entry Form */}
       <div className="hbt-card">
         <div className="flex items-center justify-between mb-3">
@@ -367,7 +369,8 @@ export const ExpensesTab: React.FC<ExpensesTabProps> = ({
               return (
                 <div
                   key={exp.id}
-                  className="py-3 flex items-start justify-between gap-3 first:pt-1 last:pb-1"
+                  onClick={() => onSelectExpense && onSelectExpense(exp)}
+                  className="py-3 flex items-start justify-between gap-3 first:pt-1 last:pb-1 cursor-pointer hover:bg-sand/15 -mx-2 px-2 rounded-lg transition-colors"
                 >
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-1.5 flex-wrap">

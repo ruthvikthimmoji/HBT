@@ -2,10 +2,15 @@ export type AttendanceStatus = 'full' | 'half' | 'absent';
 
 export type PaymentMode = 'Cash' | 'UPI' | 'Bank' | 'Cheque';
 
+export type LogType = 'expense' | 'attendance' | 'payment';
+
 export interface Settings {
   budget: number;
   projectName: string;
+  projectStartDate?: string;
+  nearLimitWarningPct?: number;
   gasWebAppUrl?: string;
+  sheetUrl?: string;
   lastSyncedAt?: string;
   categoryBudgets: Record<string, number>;
 }
@@ -76,12 +81,42 @@ export interface PersonBalance {
   status: 'Due' | 'Advance' | 'Settled';
 }
 
+export interface MonthlyTrendItem {
+  month: string;
+  expenses: number;
+  wages: number;
+  totalCost: number;
+  paid: number;
+  cumulativeCost: number;
+  cumulativePaid: number;
+  pending: number;
+}
+
 export interface FinancialSummary {
   budget: number;
   totalCost: number;
+  totalExpenses: number;
+  totalWages: number;
   totalPaid: number;
   pendingOverall: number;
   budgetLeft: number;
   categorySpendings: CategorySpending[];
   personBalances: PersonBalance[];
+  monthlyTrends: MonthlyTrendItem[];
+}
+
+export interface UnifiedLog {
+  id: string;
+  type: LogType;
+  date: string;
+  title: string;
+  subtitle: string;
+  amount: number;
+  category?: string;
+  statusBadge?: string;
+  vendorOrWorker?: string;
+  paymentMode?: PaymentMode;
+  note?: string;
+  photoUrl?: string;
+  rawItem: Expense | DailyLog | Payment;
 }

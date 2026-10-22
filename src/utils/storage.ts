@@ -10,17 +10,26 @@ const STORAGE_KEYS = {
   THEME: 'hbt_theme',
 };
 
-const DEFAULT_SETTINGS: Settings = {
-  projectName: 'Dream Villa Construction',
-  budget: 4500000, // ₹45,00,000
+export const DEFAULT_SETTINGS: Settings = {
+  projectName: 'My House Construction',
+  budget: 4500000,
+  projectStartDate: '2026-10-01',
+  nearLimitWarningPct: 90,
   gasWebAppUrl: '',
+  sheetUrl: 'https://docs.google.com/spreadsheets/d/1L6LaIz140FAXVm6Up-lSQ6RygOuHZtYuEd12kuqjMfk/edit?usp=sharing',
   categoryBudgets: {
     'Foundation': 500000,
     'Cement & Steel': 1200000,
     'Bricks & Sand': 450000,
     'Plumbing': 250000,
     'Electrical': 300000,
+    'Painting': 200000,
+    'Tiles & Flooring': 350000,
+    'Carpentry & Doors': 250000,
+    'Transport': 100000,
+    'Permits & Fees': 150000,
     'Labour (daily wages)': 800000,
+    'Other': 100000,
   },
 };
 
@@ -47,8 +56,17 @@ export function getInitialData(): {
     const rawPayments = localStorage.getItem(STORAGE_KEYS.PAYMENTS);
 
     if (rawSettings && rawExpenses && rawWorkers) {
+      const parsedSettings: Settings = JSON.parse(rawSettings);
       return {
-        settings: JSON.parse(rawSettings),
+        settings: {
+          ...DEFAULT_SETTINGS,
+          ...parsedSettings,
+          sheetUrl: parsedSettings.sheetUrl || DEFAULT_SETTINGS.sheetUrl,
+          categoryBudgets: {
+            ...DEFAULT_SETTINGS.categoryBudgets,
+            ...(parsedSettings.categoryBudgets || {}),
+          },
+        },
         expenses: JSON.parse(rawExpenses),
         logs: rawLogs ? JSON.parse(rawLogs) : [],
         workers: JSON.parse(rawWorkers),
@@ -59,7 +77,7 @@ export function getInitialData(): {
     console.error('Error reading localStorage, using defaults', err);
   }
 
-  // Generate sensible seed demo data for a lively first run
+  // Generate sensible seed demo data for initial testing
   const today = getTodayDateString();
   const d = new Date();
   const dMinus1 = new Date(d);
@@ -104,6 +122,7 @@ export function getInitialData(): {
       vendor: 'Shiva Transports',
       amount: 4500,
       createdAt: new Date().toISOString(),
+      note: '3 tractor trips',
     },
   ];
 

@@ -7,6 +7,7 @@ import {
   FinancialSummary,
   CategorySpending,
   PersonBalance,
+  MonthlyTrendItem,
 } from '../types';
 
 export const LABOUR_CATEGORY = 'Labour (daily wages)';
@@ -33,13 +34,13 @@ export function computeFinancialSummary(
   payments: Payment[]
 ): FinancialSummary {
   // 1. Calculate Expenses Total
-  const totalExpensesAmount = expenses.reduce((sum, e) => sum + (Number(e.amount) || 0), 0);
+  const totalExpenses = expenses.reduce((sum, e) => sum + (Number(e.amount) || 0), 0);
 
   // 2. Calculate Total Wages from logs
   const totalWages = logs.reduce((sum, log) => sum + (Number(log.wage) || 0), 0);
 
   // 3. Total Cost
-  const totalCost = totalExpensesAmount + totalWages;
+  const totalCost = totalExpenses + totalWages;
 
   // 4. Paid Total
   const totalPaid = payments.reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
@@ -48,7 +49,7 @@ export function computeFinancialSummary(
   const pendingOverall = totalCost - totalPaid;
 
   // 6. Budget Left
-  const budgetLeft = (Number(settings.budget) || 0) - totalCost;
+  const budgetLeft = (Number(settings.budget) || 4500000) - totalCost;
 
   // 7. Spending by Category
   const catMap = new Map<string, number>();
@@ -79,7 +80,6 @@ export function computeFinancialSummary(
     .sort((a, b) => b.amount - a.amount);
 
   // 8. Pending by Person / Vendor
-  // PRD: Pending (per person) = expenses where vendor = name + wages where worker = name - payments where payee = name
   interface PersonAgg {
     name: string;
     type: 'worker' | 'vendor' | 'other';
@@ -90,8 +90,6 @@ export function computeFinancialSummary(
   }
 
   const personMap = new Map<string, PersonAgg>();
-
-  // Normalization key helper
   const normKey = (str: string) => str.trim().toLowerCase();
 
   // Add all registered workers
@@ -180,27 +178,84 @@ export function computeFinancialSummary(
         status,
       };
     })
-    // Sort dues first (highest pending balance first), then advances, then settled
     .sort((a, b) => {
       if (a.status === 'Due' && b.status !== 'Due') return -1;
       if (b.status === 'Due' && a.status !== 'Due') return 1;
       return b.balance - a.balance;
     });
 
+  // 9. Monthly Trends (matching the user's MonthlyTrend tab)
+  const monthMap = new Map<string, { expenses: number; wages: number; paid: number }>();
+
+  // Helper to extract "YYYY-MM"
+  const getMonthKey = (dateStr: string) => {
+    if (!dateStr) return '';
+    return dateStr.substring(0, 7); // "2026-10"
+  };
+
+  expenses.forEach((e) => {
+    const m = getMonthKey(e.date);
+    if (!m) return;
+    if (!monthMap.has(m)) monthMap.set(m, { expenses: 0, wages: 0, paid: 0 });
+    monthMap.get(m)!.expenses += Number(e.amount) || 0;
+  });
+
+  logs.forEach((l) => {
+    const m = getMonthKey(l.date);
+    if (!m) return;
+    if (!monthMap.has(m)) monthMap.set(m, { expenses: 0, wages: 0, paid: 0 });
+    monthMap.get(m)!.wages += Number(l.wage) || 0;
+  });
+
+  payments.forEach((p) => {
+    const m = getMonthKey(p.date);
+    if (!m) return;
+    if (!monthMap.has(m)) monthMap.set(m, { expenses: 0, wages: 0, paid: 0 });
+    monthMap.get(m)!.paid += Number(p.amount) || 0;
+  });
+
+  const sortedMonths = Array.from(monthMap.keys()).sort();
+  let cumulativeCost = 0;
+  let cumulativePaid = 0;
+
+  const monthlyTrends: MonthlyTrendItem[] = sortedMonths.map((m) => {
+    const data = monthMap.get(m)!;
+    const totalMonthCost = data.expenses + data.wages;
+    cumulativeCost += totalMonthCost;
+    cumulativePaid += data.paid;
+    const pending = cumulativeCost - cumulativePaid;
+
+    // Format "2026-10" as "Oct 2026"
+    const [y, mon] = m.split('-');
+    const dateObj = new Date(parseInt(y), parseInt(mon) - 1, 1);
+    const monthLabel = dateObj.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+
+    return {
+      month: monthLabel,
+      expenses: data.expenses,
+      wages: data.wages,
+      totalCost: totalMonthCost,
+      paid: data.paid,
+      cumulativeCost,
+      cumulativePaid,
+      pending,
+    };
+  });
+
   return {
-    budget: Number(settings.budget) || 0,
+    budget: Number(settings.budget) || 4500000,
     totalCost,
+    totalExpenses,
+    totalWages,
     totalPaid,
     pendingOverall,
     budgetLeft,
     categorySpendings,
     personBalances,
+    monthlyTrends,
   };
 }
 
-/**
- * Compute worker-specific stats (days worked, total wages earned)
- */
 export function computeWorkerStats(workerId: string, logs: DailyLog[]) {
   const workerLogs = logs.filter((l) => l.workerId === workerId);
   const fullDays = workerLogs.filter((l) => l.status === 'full').length;

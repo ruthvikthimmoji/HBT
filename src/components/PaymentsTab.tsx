@@ -14,6 +14,7 @@ interface PaymentsTabProps {
   onEditPayment: (payment: Payment) => void;
   onDeletePayment: (id: string) => void;
   onViewPhoto: (photoUrl: string, caption: string) => void;
+  onSelectPayment?: (payment: Payment) => void;
 }
 
 export const PaymentsTab: React.FC<PaymentsTabProps> = ({
@@ -26,6 +27,7 @@ export const PaymentsTab: React.FC<PaymentsTabProps> = ({
   onEditPayment,
   onDeletePayment,
   onViewPhoto,
+  onSelectPayment,
 }) => {
   const [date, setDate] = useState(getTodayDateString());
   const [payee, setPayee] = useState('');
@@ -152,7 +154,7 @@ export const PaymentsTab: React.FC<PaymentsTabProps> = ({
   const paymentModes: PaymentMode[] = ['Cash', 'UPI', 'Bank', 'Cheque'];
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 pb-20">
       {/* 1. Quick Payment Entry Form */}
       <div className="hbt-card">
         <div className="flex items-center justify-between mb-3">
@@ -368,7 +370,8 @@ export const PaymentsTab: React.FC<PaymentsTabProps> = ({
               return (
                 <div
                   key={p.id}
-                  className="py-3 flex items-start justify-between gap-3 first:pt-1 last:pb-1"
+                  onClick={() => onSelectPayment && onSelectPayment(p)}
+                  className="py-3 flex items-start justify-between gap-3 first:pt-1 last:pb-1 cursor-pointer hover:bg-sand/15 -mx-2 px-2 rounded-lg transition-colors"
                 >
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-1.5 flex-wrap">

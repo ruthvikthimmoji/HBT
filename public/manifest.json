@@ -1,0 +1,18 @@
+{
+  "short_name": "House Build",
+  "name": "House Build Tracker",
+  "description": "Every rupee and every workday of your house build, in one place.",
+  "icons": [
+    {
+      "src": "/icon-192.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192 512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#F6F3EE",
+  "theme_color": "#B4531F",
+  "display": "standalone",
+  "orientation": "portrait"
+}

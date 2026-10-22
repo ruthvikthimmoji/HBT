@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C25A24"/>
+      <stop offset="50%" stop-color="#B4531F"/>
+      <stop offset="100%" stop-color="#933C12"/>
+    </linearGradient>
+    <linearGradient id="clay" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#FBEEE5"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#000000" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- Rounded App Icon Background -->
+  <rect width="512" height="512" rx="120" fill="url(#bg)"/>
+  
+  <!-- Subtle inner border -->
+  <rect width="508" height="508" x="2" y="2" rx="118" fill="none" stroke="rgba(255, 255, 255, 0.2)" stroke-width="3"/>
+
+  <!-- House roofline and ledger silhouette -->
+  <g filter="url(#shadow)">
+    <!-- House roof triangle -->
+    <path d="M256 100 L396 220 L370 244 L256 144 L142 244 L116 220 Z" fill="url(#clay)"/>
+    <!-- House walls with ledger lines -->
+    <rect x="146" y="224" width="220" height="196" rx="18" fill="url(#clay)"/>
+    
+    <!-- Ledger horizontal balance lines in terracotta -->
+    <line x1="180" y1="280" x2="332" y2="280" stroke="#B4531F" stroke-width="12" stroke-linecap="round"/>
+    <line x1="180" y1="324" x2="332" y2="324" stroke="#B4531F" stroke-width="12" stroke-linecap="round"/>
+    <line x1="180" y1="368" x2="280" y2="368" stroke="#B4531F" stroke-width="12" stroke-linecap="round"/>
+
+    <!-- Door / Vault opening -->
+    <rect x="226" y="340" width="60" height="80" rx="10" fill="#B4531F"/>
+  </g>
+</svg>

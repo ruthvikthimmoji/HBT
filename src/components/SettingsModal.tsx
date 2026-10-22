@@ -186,10 +186,10 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 
         {/* 1. Open Google Sheet Quick Card */}
         <a
-          href="https://sheets.new"
+          href={settings.sheetUrl || 'https://docs.google.com/spreadsheets/d/1L6LaIz140FAXVm6Up-lSQ6RygOuHZtYuEd12kuqjMfk/edit?usp=sharing'}
           target="_blank"
           rel="noreferrer"
-          className="border border-sand dark:border-sand-dark rounded-xl p-3 flex items-center justify-between hover:bg-sand/20 dark:hover:bg-sand-dark/20 transition-all bg-[#FBEEE5]/30 dark:bg-[#33241A]/30"
+          className="border border-sand dark:border-sand-dark rounded-xl p-3 flex items-center justify-between hover:bg-sand/20 dark:hover:bg-sand-dark/20 transition-all bg-[#FBEEE5]/30 dark:bg-[#33241A]/30 group"
         >
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-lg bg-money-green/15 text-money-green dark:text-money-green-dark flex items-center justify-center">
@@ -197,11 +197,11 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             </div>
             <div>
               <div className="text-sm font-bold text-charcoal dark:text-text-dark flex items-center gap-1.5">
-                <span>{sheetName ? `Open ${sheetName}` : 'Open Google Sheets'}</span>
-                <ExternalLink size={13} className="text-stone" />
+                <span>Open Linked Google Sheet Tracker</span>
+                <ExternalLink size={13} className="text-stone group-hover:text-money-green transition-colors" />
               </div>
               <div className="text-xs text-stone dark:text-stone-dark">
-                Click to open your connected Google Sheet or create a new one
+                {settings.projectName || 'My House Construction'} (1L6LaIz...Sheet)
               </div>
             </div>
           </div>
