@@ -1,0 +1,144 @@
+@import "tailwindcss";
+
+@theme {
+  --color-plaster: #F6F3EE;
+  --color-surface-light: #FFFFFF;
+  --color-charcoal: #1F2328;
+  --color-stone: #6B7280;
+  --color-sand: #E5E0D6;
+  --color-terracotta: #B4531F;
+  --color-clay: #FBEEE5;
+  --color-money-green: #237A3B;
+  --color-money-red: #B42318;
+
+  --color-bg-dark: #17150F;
+  --color-surface-dark: #221F17;
+  --color-text-dark: #F1EDE4;
+  --color-stone-dark: #A39D8F;
+  --color-sand-dark: #383327;
+  --color-terracotta-dark: #E8814A;
+  --color-clay-dark: #33241A;
+  --color-money-green-dark: #5EC27A;
+  --color-money-red-dark: #F27A6D;
+
+  --font-brand: "Nunito Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+@layer base {
+  :root {
+    color-scheme: light dark;
+  }
+
+  body {
+    font-family: var(--font-system);
+    font-size: 15px;
+    line-height: 1.45;
+    background-color: #F6F3EE;
+    color: #1F2328;
+    -webkit-tap-highlight-color: transparent;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .dark body {
+    background-color: #17150F;
+    color: #F1EDE4;
+  }
+
+  /* Amounts and numbers tabular alignment */
+  .tabular-num {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* PRD Card Styles: 12px rounded, 1px Sand border, 14px padding */
+.hbt-card {
+  border-radius: 12px;
+  padding: 14px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #E5E0D6;
+  background-color: #FFFFFF;
+}
+
+.dark .hbt-card {
+  border-color: #383327;
+  background-color: #221F17;
+}
+
+/* PRD Button Styles */
+.hbt-btn-primary {
+  background-color: #B4531F;
+  color: #FFFFFF;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  min-height: 40px;
+}
+
+.hbt-btn-primary:active {
+  transform: scale(0.98);
+}
+
+.dark .hbt-btn-primary {
+  background-color: #E8814A;
+  color: #17150F;
+}
+
+.hbt-btn-secondary {
+  background-color: transparent;
+  color: #6B7280;
+  border: 1px solid #E5E0D6;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  min-height: 40px;
+}
+
+.hbt-btn-secondary:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.dark .hbt-btn-secondary {
+  border-color: #383327;
+  color: #A39D8F;
+}
+
+.dark .hbt-btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+/* Inputs: 8px rounded corners */
+.hbt-input {
+  border-radius: 8px;
+  border: 1px solid #E5E0D6;
+  background-color: #FFFFFF;
+  padding: 9px 12px;
+  font-size: 15px;
+  outline: none;
+  min-height: 42px;
+  transition: border-color 0.15s ease;
+}
+
+.hbt-input:focus {
+  border-color: #B4531F;
+}
+
+.dark .hbt-input {
+  background-color: #17150F;
+  border-color: #383327;
+  color: #F1EDE4;
+}
+
+.dark .hbt-input:focus {
+  border-color: #E8814A;
+}
