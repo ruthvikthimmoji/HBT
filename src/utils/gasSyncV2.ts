@@ -50,9 +50,10 @@ function doPost(e) {
     const action = payload.action;
     const item = payload.data;
     
-    if (action === "addPayment") {
+    // 1. ADD / UPDATE PAYMENT
+    if (action === "addPayment" || action === "updatePayment") {
       const sheet = ss.getSheetByName("Payments Ledger");
-      sheet.appendRow([
+      const rowData = [
         item.id || ("P-" + Utilities.getUuid().slice(0, 4)),
         item.date,
         item.paidTo,
@@ -68,10 +69,14 @@ function doPost(e) {
         item.receiptNo || "",
         item.receiptLocation || "",
         item.remarks || ""
-      ]);
-    } else if (action === "addAgreement") {
+      ];
+      upsertRow(sheet, 0, item.id, rowData);
+    }
+    
+    // 2. ADD / UPDATE AGREEMENT
+    else if (action === "addAgreement" || action === "updateAgreement") {
       const sheet = ss.getSheetByName("Agreements");
-      sheet.appendRow([
+      const rowData = [
         item.id,
         item.dateAgreed,
         item.vendor,
@@ -93,10 +98,14 @@ function doPost(e) {
         item.status,
         item.docUrl || "",
         item.notes || ""
-      ]);
-    } else if (action === "addMaterial") {
+      ];
+      upsertRow(sheet, 0, item.id, rowData);
+    }
+    
+    // 3. ADD / UPDATE MATERIAL
+    else if (action === "addMaterial" || action === "updateMaterial") {
       const sheet = ss.getSheetByName("Materials Log");
-      sheet.appendRow([
+      const rowData = [
         item.date,
         item.material,
         item.supplier,
@@ -109,8 +118,12 @@ function doPost(e) {
         item.paymentStatus,
         item.billLink || "",
         item.remarks || ""
-      ]);
-    } else if (action === "addSiteLog") {
+      ];
+      upsertRow(sheet, 7, item.billNo || item.material + item.date, rowData);
+    }
+    
+    // 4. ADD SITE LOG
+    else if (action === "addSiteLog") {
       const sheet = ss.getSheetByName("Site Daily Log");
       sheet.appendRow([
         item.date,
@@ -125,9 +138,12 @@ function doPost(e) {
         item.photoRef || "",
         item.nextSteps || ""
       ]);
-    } else if (action === "addSchedule") {
+    }
+    
+    // 5. ADD / UPDATE SCHEDULE
+    else if (action === "addSchedule" || action === "updateSchedule") {
       const sheet = ss.getSheetByName("Payment Schedule");
-      sheet.appendRow([
+      const rowData = [
         item.dueDate,
         item.vendor,
         item.agreementRef || "",
@@ -137,7 +153,68 @@ function doPost(e) {
         item.daysLeft,
         item.paidOn || "",
         item.notes || ""
-      ]);
+      ];
+      upsertRow(sheet, 3, item.milestone, rowData);
+    }
+    
+    // 6. SYNC ALL (BATCH PUSH)
+    else if (action === "syncAll") {
+      if (item.payments && item.payments.length > 0) {
+        const sheet = ss.getSheetByName("Payments Ledger");
+        item.payments.forEach(p => {
+          upsertRow(sheet, 0, p.id, [
+            p.id, p.date, p.paidTo, p.agreementRef || "", p.agreedWork || "",
+            p.category, p.description, p.amount, p.paymentType, p.mode,
+            p.txnRef || "", p.receiptReceived ? "Yes" : "No", p.receiptNo || "",
+            p.receiptLocation || "", p.remarks || ""
+          ]);
+        });
+      }
+      
+      if (item.agreements && item.agreements.length > 0) {
+        const sheet = ss.getSheetByName("Agreements");
+        item.agreements.forEach(a => {
+          upsertRow(sheet, 0, a.id, [
+            a.id, a.dateAgreed, a.vendor, a.workScope, a.category,
+            a.agreedAmount, a.agreementType, a.startDate, a.expectedEndDate,
+            a.paymentTerms, a.advanceAgreed, a.advancePaid, a.totalPaid,
+            a.balanceToPay, a.percentPaid / 100, a.workCompletedPercent / 100,
+            a.workValueDone, a.paidAheadOfWork, a.status, a.docUrl || "", a.notes || ""
+          ]);
+        });
+      }
+      
+      if (item.materials && item.materials.length > 0) {
+        const sheet = ss.getSheetByName("Materials Log");
+        item.materials.forEach(m => {
+          upsertRow(sheet, 7, m.billNo || m.material + m.date, [
+            m.date, m.material, m.supplier, m.qty, m.unit, m.rate,
+            m.amount, m.billNo || "", m.delivered, m.paymentStatus,
+            m.billLink || "", m.remarks || ""
+          ]);
+        });
+      }
+      
+      if (item.siteLogs && item.siteLogs.length > 0) {
+        const sheet = ss.getSheetByName("Site Daily Log");
+        item.siteLogs.forEach(s => {
+          upsertRow(sheet, 0, s.date, [
+            s.date, s.day, s.stage, s.weather, s.workDone,
+            s.labourCount, s.whoWasOnSite, s.issuesDelays || "",
+            s.decisionsGiven || "", s.photoRef || "", s.nextSteps || ""
+          ]);
+        });
+      }
+      
+      if (item.schedule && item.schedule.length > 0) {
+        const sheet = ss.getSheetByName("Payment Schedule");
+        item.schedule.forEach(sc => {
+          upsertRow(sheet, 3, sc.milestone, [
+            sc.dueDate, sc.vendor, sc.agreementRef || "", sc.milestone,
+            sc.amountDue, sc.status, sc.daysLeft, sc.paidOn || "", sc.notes || ""
+          ]);
+        });
+      }
     }
 
     return ContentService.createTextOutput(JSON.stringify({ status: "success", action }))
@@ -145,6 +222,28 @@ function doPost(e) {
   } catch (err) {
     return ContentService.createTextOutput(JSON.stringify({ status: "error", message: err.toString() }))
       .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+// Upsert row: updates if matching ID exists, otherwise appends
+function upsertRow(sheet, idColIndex, idValue, rowData) {
+  if (!sheet) return;
+  const values = sheet.getDataRange().getValues();
+  let foundRow = -1;
+  
+  if (idValue && values.length > 1) {
+    for (let i = 1; i < values.length; i++) {
+      if (String(values[i][idColIndex]).trim().toLowerCase() === String(idValue).trim().toLowerCase()) {
+        foundRow = i + 1;
+        break;
+      }
+    }
+  }
+  
+  if (foundRow > 0) {
+    sheet.getRange(foundRow, 1, 1, rowData.length).setValues([rowData]);
+  } else {
+    sheet.appendRow(rowData);
   }
 }
 
@@ -165,6 +264,42 @@ function readSheetData(sheet) {
 }
 `;
 
+// Background Poster to Google Apps Script (handles CORS simple text/plain)
+export async function postToGAS(gasUrl: string, action: string, data: any): Promise<boolean> {
+  if (!gasUrl) return false;
+  try {
+    await fetch(gasUrl, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8',
+      },
+      body: JSON.stringify({ action, data }),
+    });
+    return true;
+  } catch (err) {
+    console.error('Error posting to Google Apps Script:', err);
+    return false;
+  }
+}
+
+// Push All Local Data to Google Sheets
+export async function pushAllDataToGAS(
+  gasUrl: string,
+  payload: {
+    agreements: Agreement[];
+    payments: PaymentRecord[];
+    materials: MaterialEntry[];
+    siteLogs: SiteDailyLog[];
+    schedule: ScheduledPayment[];
+    budget: BudgetCategory[];
+  }
+): Promise<boolean> {
+  if (!gasUrl) throw new Error('No Google Apps Script Web App URL provided');
+  return postToGAS(gasUrl, 'syncAll', payload);
+}
+
+// Read from Google Apps Script
 export async function syncWithGAS(gasUrl: string) {
   if (!gasUrl) throw new Error('No Google Apps Script URL configured');
   const response = await fetch(gasUrl, { method: 'GET' });
@@ -209,7 +344,7 @@ export function exportToExcelV2(
       'Work Value Done (₹)': a.workValueDone,
       'Paid Ahead of Work (₹)': a.paidAheadOfWork,
       Status: a.status,
-      Notes: a.notes,
+      Notes: a.notes || '',
     }))
   );
   XLSX.utils.book_append_sheet(wb, wsAgreements, 'Agreements');

@@ -20,6 +20,7 @@ interface SettingsModalV2Props {
   onSaveSettings: (settings: AppSettingsV2) => void;
   onExportExcel: () => void;
   onSyncGAS: () => Promise<void>;
+  onPushAllToGoogleSheet: () => Promise<void>;
   onResetSampleData: () => void;
 }
 
@@ -30,6 +31,7 @@ export const SettingsModalV2: React.FC<SettingsModalV2Props> = ({
   onSaveSettings,
   onExportExcel,
   onSyncGAS,
+  onPushAllToGoogleSheet,
   onResetSampleData,
 }) => {
   const [projectName, setProjectName] = useState(settings.projectName);
@@ -38,8 +40,9 @@ export const SettingsModalV2: React.FC<SettingsModalV2Props> = ({
   const [startMonth, setStartMonth] = useState(settings.startMonth);
   const [copiedScript, setCopiedScript] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
+  const [isPushing, setIsPushing] = useState(false);
   const [syncStatus, setSyncStatus] = useState<string | null>(null);
-  const [showGuide, setShowGuide] = useState(false);
+  const [showGuide, setShowGuide] = useState(!settings.gasWebAppUrl);
 
   if (!isOpen) return null;
 
@@ -47,6 +50,23 @@ export const SettingsModalV2: React.FC<SettingsModalV2Props> = ({
     navigator.clipboard.writeText(GAS_V2_SCRIPT_TEMPLATE);
     setCopiedScript(true);
     setTimeout(() => setCopiedScript(false), 2500);
+  };
+
+  const handlePushAll = async () => {
+    if (!gasWebAppUrl) {
+      alert('Please paste your Google Apps Script Web App URL first!');
+      return;
+    }
+    setIsPushing(true);
+    setSyncStatus(null);
+    try {
+      await onPushAllToGoogleSheet();
+      setSyncStatus('success_push');
+    } catch (err: any) {
+      setSyncStatus(err.message || 'Push failed');
+    } finally {
+      setIsPushing(false);
+    }
   };
 
   const handleTriggerSync = async () => {
@@ -183,22 +203,30 @@ export const SettingsModalV2: React.FC<SettingsModalV2Props> = ({
             </div>
 
             {showGuide && (
-              <div className="p-3 rounded-lg bg-[#EBECDC]/80 border border-sand text-[11px] space-y-1.5 text-stone">
-                <p className="font-bold text-charcoal">Quick 2-Minute Deployment:</p>
-                <ol className="list-decimal list-inside space-y-1">
-                  <li>Click <strong>Open Connected Google Sheet</strong> above.</li>
-                  <li>Click <strong>Extensions &gt; Apps Script</strong>.</li>
-                  <li>Click <strong>Copy Code.gs</strong> button and paste it over everything.</li>
-                  <li>Click <strong>Save (💾)</strong> ➔ <strong>Deploy &gt; New deployment</strong>.</li>
-                  <li>Select <strong>Web app</strong> ➔ Execute as: <strong>Me</strong> ➔ Who has access: <strong>Anyone</strong>.</li>
-                  <li>Copy Web App URL and paste below.</li>
+              <div className="p-3.5 rounded-lg bg-[#EBECDC]/90 border border-sand text-xs space-y-2 text-stone">
+                <p className="font-bold text-charcoal">
+                  Connect in 4 Simple Steps to see live updates in your Google Sheet:
+                </p>
+                <ol className="list-decimal list-inside space-y-1.5 leading-relaxed">
+                  <li>
+                    Click <strong className="text-charcoal">Open Connected Google Sheet</strong> above.
+                  </li>
+                  <li>
+                    In the sheet menu bar, click <strong className="text-charcoal">Extensions ➔ Apps Script</strong>.
+                  </li>
+                  <li>
+                    Click the <strong className="text-terracotta">Copy Code.gs</strong> button above and paste it over everything in the editor, then click <strong className="text-charcoal">Save (💾)</strong>.
+                  </li>
+                  <li>
+                    Click the blue <strong className="text-charcoal">Deploy ➔ New deployment</strong> button (top right), choose type: <strong className="text-charcoal">Web app</strong>, set <em>Who has access</em> to <strong className="text-terracotta">Anyone</strong>, then click Deploy and copy the Web App URL.
+                  </li>
                 </ol>
               </div>
             )}
 
             <div>
               <label className="block text-stone mb-1 font-medium">
-                Apps Script Web App URL
+                Paste Apps Script Web App URL below:
               </label>
               <div className="flex items-center gap-2">
                 <input
@@ -208,27 +236,42 @@ export const SettingsModalV2: React.FC<SettingsModalV2Props> = ({
                   placeholder="https://script.google.com/macros/s/.../exec"
                   className="hbt-input flex-1 text-xs"
                 />
+              </div>
+
+              <div className="flex items-center gap-2 mt-2">
+                <button
+                  type="button"
+                  onClick={handlePushAll}
+                  disabled={isPushing || !gasWebAppUrl}
+                  className="hbt-btn-primary flex-1 py-2 text-xs flex items-center justify-center gap-1.5 font-bold"
+                >
+                  <RefreshCw size={13} className={isPushing ? 'animate-spin' : ''} />
+                  <span>{isPushing ? 'Pushing Data...' : 'Push All Data to Google Sheet Now'}</span>
+                </button>
+
                 <button
                   type="button"
                   onClick={handleTriggerSync}
-                  disabled={isSyncing}
+                  disabled={isSyncing || !gasWebAppUrl}
                   className="hbt-btn-secondary px-3 py-2 text-xs flex items-center gap-1 font-semibold whitespace-nowrap"
                 >
                   <RefreshCw size={12} className={isSyncing ? 'animate-spin' : ''} />
-                  <span>Sync</span>
+                  <span>Pull</span>
                 </button>
               </div>
 
               {syncStatus && (
                 <div
-                  className={`mt-2 p-2 rounded text-[11px] font-medium ${
-                    syncStatus === 'success'
+                  className={`mt-2.5 p-2 rounded text-[11px] font-bold ${
+                    syncStatus.startsWith('success')
                       ? 'bg-green-100 text-money-green'
                       : 'bg-red-100 text-money-red'
                   }`}
                 >
-                  {syncStatus === 'success'
-                    ? 'Synced successfully with Google Sheets!'
+                  {syncStatus === 'success_push'
+                    ? '✓ All local records successfully pushed to your Google Sheet!'
+                    : syncStatus === 'success'
+                    ? '✓ Synced with Google Sheet!'
                     : `Sync Error: ${syncStatus}`}
                 </div>
               )}
