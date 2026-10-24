@@ -248,7 +248,7 @@ export const ExpensesTab: React.FC<ExpensesTabProps> = ({
                   onClick={() => setCategory(cat)}
                   className={`text-[12px] px-2.5 py-1 rounded-full font-medium transition-all ${
                     category === cat
-                      ? 'bg-terracotta dark:bg-terracotta-dark text-white dark:text-[#17150F] font-semibold'
+                      ? 'bg-terracotta dark:bg-terracotta-dark text-white dark:text-[#F6F5ED] font-semibold'
                       : 'bg-sand/35 dark:bg-sand-dark/40 text-charcoal dark:text-text-dark hover:bg-sand/60'
                   }`}
                 >
@@ -377,7 +377,7 @@ export const ExpensesTab: React.FC<ExpensesTabProps> = ({
                       <span className="font-bold text-[15px] text-charcoal dark:text-text-dark">
                         {exp.item}
                       </span>
-                      <span className="text-[11px] px-2 py-0.2 rounded-full font-medium bg-[#FFF0EB] dark:bg-[#3D160A] text-terracotta dark:text-terracotta-dark">
+                      <span className="text-[11px] px-2 py-0.2 rounded-full font-medium bg-[#EBECDC] dark:bg-[#733635] text-terracotta dark:text-terracotta-dark">
                         {exp.category}
                       </span>
                     </div>

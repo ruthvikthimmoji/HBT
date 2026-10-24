@@ -2,16 +2,16 @@
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#FFFFFF"/>
-      <stop offset="100%" stop-color="#FBF8F5"/>
+      <stop offset="100%" stop-color="#F6F5ED"/>
     </linearGradient>
     <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#FF460E" flood-opacity="0.18"/>
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#FF6038" flood-opacity="0.22"/>
     </filter>
   </defs>
 
   <!-- App icon squircle background -->
   <rect width="512" height="512" rx="120" fill="url(#bg)"/>
-  <rect width="508" height="508" x="2" y="2" rx="118" fill="none" stroke="#FFEAE3" stroke-width="4"/>
+  <rect width="508" height="508" x="2" y="2" rx="118" fill="none" stroke="#EBECDC" stroke-width="4"/>
 
   <!-- Centered HB Logo -->
   <g filter="url(#shadow)">

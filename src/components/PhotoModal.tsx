@@ -20,7 +20,7 @@ export const PhotoModal: React.FC<PhotoModalProps> = ({ photoUrl, caption, onClo
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header bar */}
-        <div className="flex items-center justify-between p-3 border-b border-sand-dark bg-[#17150F]">
+        <div className="flex items-center justify-between p-3 border-b border-sand-dark bg-[#361E1C]">
           <span className="text-sm font-semibold text-text-dark truncate">
             {caption || 'Receipt Preview'}
           </span>

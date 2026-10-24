@@ -170,7 +170,7 @@ export const FullLogsView: React.FC<FullLogsViewProps> = ({
             onClick={() => setFilterType(f.id as any)}
             className={`px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-colors ${
               filterType === f.id
-                ? 'bg-terracotta dark:bg-terracotta-dark text-white dark:text-[#17150F]'
+                ? 'bg-terracotta dark:bg-terracotta-dark text-white dark:text-[#F6F5ED]'
                 : 'bg-white dark:bg-surface-dark text-stone dark:text-stone-dark border border-sand dark:border-sand-dark'
             }`}
           >
@@ -229,10 +229,10 @@ export const FullLogsView: React.FC<FullLogsViewProps> = ({
                 <div
                   className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
                     item.type === 'expense'
-                      ? 'bg-[#FFF0EB] text-terracotta dark:bg-[#3D160A] dark:text-terracotta-dark'
+                      ? 'bg-[#EBECDC] text-terracotta dark:bg-[#733635] dark:text-[#F6F5ED]'
                       : item.type === 'attendance'
-                      ? 'bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-300'
-                      : 'bg-money-green/10 text-money-green dark:text-money-green-dark'
+                      ? 'bg-[#A0C9CB]/40 text-[#11363E] dark:bg-[#11363E] dark:text-[#A0C9CB]'
+                      : 'bg-[#EBECDC] text-[#733635] dark:bg-[#733635] dark:text-[#A0C9CB]'
                   }`}
                 >
                   {item.type === 'expense' && <Receipt size={18} />}

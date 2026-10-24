@@ -26,13 +26,13 @@ export const Header: React.FC<HeaderProps> = ({
     sheetUrl || 'https://docs.google.com/spreadsheets/d/1L6LaIz140FAXVm6Up-lSQ6RygOuHZtYuEd12kuqjMfk/edit';
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 dark:bg-[#17150F]/95 backdrop-blur-md border-b border-sand dark:border-sand-dark transition-colors">
+    <header className="sticky top-0 z-40 bg-white/95 dark:bg-[#361E1C]/95 backdrop-blur-md border-b border-sand dark:border-sand-dark transition-colors">
       <div className="max-w-[900px] mx-auto px-4 py-2.5">
         {/* Top Sync / Storage Notification Banner */}
         <div className="flex items-center justify-between text-xs mb-1.5">
           <div className="flex items-center gap-2">
             {isSynced ? (
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#FFF0EB] dark:bg-[#3D160A] text-terracotta dark:text-terracotta-dark font-medium">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#EBECDC] dark:bg-[#733635] text-terracotta dark:text-terracotta-dark font-medium">
                 <Cloud size={13} className="text-terracotta dark:text-terracotta-dark" />
                 <span>Synced with Google Sheet</span>
                 {lastSyncedAt && (
@@ -94,7 +94,7 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Main Branding Title */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-xl bg-white dark:bg-[#221F17] border border-sand/70 dark:border-sand-dark flex items-center justify-center p-1 shadow-sm flex-shrink-0">
+            <div className="w-10 h-10 rounded-xl bg-white dark:bg-[#11363E] border border-sand/70 dark:border-sand-dark flex items-center justify-center p-1 shadow-sm flex-shrink-0">
               <img src="/logo.png" alt="HB Logo" className="w-full h-full object-contain" />
             </div>
             <div>

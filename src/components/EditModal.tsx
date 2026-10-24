@@ -200,7 +200,7 @@ export const EditModal: React.FC<EditModalProps> = ({
                       onClick={() => setPaymentMode(m)}
                       className={`py-1.5 px-2 rounded-lg text-xs font-semibold select-none text-center ${
                         paymentMode === m
-                          ? 'bg-terracotta dark:bg-terracotta-dark text-white dark:text-[#17150F]'
+                          ? 'bg-terracotta dark:bg-terracotta-dark text-white dark:text-[#F6F5ED]'
                           : 'border border-sand dark:border-sand-dark text-charcoal dark:text-text-dark'
                       }`}
                     >

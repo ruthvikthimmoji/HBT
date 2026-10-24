@@ -213,7 +213,7 @@ export const AttendanceTab: React.FC<AttendanceTabProps> = ({
         </div>
 
         {/* Daily Wage Stat Banner */}
-        <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#FFF0EB]/80 dark:bg-[#3D160A]/80 border border-sand/40 dark:border-sand-dark/40 text-xs">
+        <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#EBECDC]/80 dark:bg-[#733635]/60 border border-sand/40 dark:border-sand-dark/40 text-xs">
           <div className="text-stone dark:text-stone-dark space-x-1.5">
             <span className="font-semibold text-charcoal dark:text-text-dark">
               {dateSummary.presentCount} Full
@@ -298,7 +298,7 @@ export const AttendanceTab: React.FC<AttendanceTabProps> = ({
                     onClick={() => handleSetStatus(worker, 'full')}
                     className={`py-2 px-3 rounded-lg text-sm font-semibold transition-all select-none flex items-center justify-center gap-1 ${
                       currentStatus === 'full' && !currentLog?.customWage
-                        ? 'bg-terracotta dark:bg-terracotta-dark text-white dark:text-[#17150F] shadow-sm'
+                        ? 'bg-terracotta dark:bg-terracotta-dark text-white dark:text-[#F6F5ED] shadow-sm'
                         : 'bg-white dark:bg-surface-dark text-charcoal dark:text-text-dark border border-sand dark:border-sand-dark hover:border-terracotta/40'
                     }`}
                   >
@@ -310,7 +310,7 @@ export const AttendanceTab: React.FC<AttendanceTabProps> = ({
                     onClick={() => handleSetStatus(worker, 'half')}
                     className={`py-2 px-3 rounded-lg text-sm font-semibold transition-all select-none flex items-center justify-center gap-1 ${
                       currentStatus === 'half'
-                        ? 'bg-terracotta dark:bg-terracotta-dark text-white dark:text-[#17150F] shadow-sm'
+                        ? 'bg-terracotta dark:bg-terracotta-dark text-white dark:text-[#F6F5ED] shadow-sm'
                         : 'bg-white dark:bg-surface-dark text-charcoal dark:text-text-dark border border-sand dark:border-sand-dark hover:border-terracotta/40'
                     }`}
                   >
@@ -322,7 +322,7 @@ export const AttendanceTab: React.FC<AttendanceTabProps> = ({
                     onClick={() => handleSetStatus(worker, 'absent')}
                     className={`py-2 px-3 rounded-lg text-sm font-semibold transition-all select-none flex items-center justify-center gap-1 ${
                       currentStatus === 'absent'
-                        ? 'bg-terracotta dark:bg-terracotta-dark text-white dark:text-[#17150F] shadow-sm'
+                        ? 'bg-terracotta dark:bg-terracotta-dark text-white dark:text-[#F6F5ED] shadow-sm'
                         : 'bg-white dark:bg-surface-dark text-charcoal dark:text-text-dark border border-sand dark:border-sand-dark hover:border-terracotta/40'
                     }`}
                   >

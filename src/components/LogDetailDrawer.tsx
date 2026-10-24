@@ -92,7 +92,7 @@ export const LogDetailDrawer: React.FC<LogDetailDrawerProps> = ({
       onClick={onClose}
     >
       <div
-        className="bg-white dark:bg-[#1E1B15] border border-sand dark:border-sand-dark w-full sm:max-w-md rounded-t-[24px] sm:rounded-2xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden transition-transform animate-in slide-in-from-bottom-6 duration-200"
+        className="bg-white dark:bg-[#11363E] border border-sand dark:border-sand-dark w-full sm:max-w-md rounded-t-[24px] sm:rounded-2xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden transition-transform animate-in slide-in-from-bottom-6 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Mobile Pull Indicator */}
@@ -104,10 +104,10 @@ export const LogDetailDrawer: React.FC<LogDetailDrawerProps> = ({
             <span
               className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider ${
                 log.type === 'expense'
-                  ? 'bg-[#FFF0EB] text-terracotta dark:bg-[#3D160A] dark:text-terracotta-dark'
+                  ? 'bg-[#EBECDC] text-terracotta dark:bg-[#733635] dark:text-[#F6F5ED]'
                   : log.type === 'attendance'
-                  ? 'bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300'
-                  : 'bg-money-green/10 text-money-green dark:text-money-green-dark'
+                  ? 'bg-[#A0C9CB]/40 text-[#11363E] dark:bg-[#11363E] dark:text-[#A0C9CB]'
+                  : 'bg-[#EBECDC] text-[#733635] dark:bg-[#733635] dark:text-[#A0C9CB]'
               }`}
             >
               {log.type === 'expense'
@@ -177,7 +177,7 @@ export const LogDetailDrawer: React.FC<LogDetailDrawerProps> = ({
                   <Tag size={13} />
                   <span>Category</span>
                 </span>
-                <span className="font-semibold px-2 py-0.5 rounded-md bg-[#FFF0EB] dark:bg-[#3D160A] text-terracotta dark:text-terracotta-dark">
+                <span className="font-semibold px-2 py-0.5 rounded-md bg-[#EBECDC] dark:bg-[#733635] text-terracotta dark:text-terracotta-dark">
                   {log.category}
                 </span>
               </div>
@@ -256,7 +256,7 @@ export const LogDetailDrawer: React.FC<LogDetailDrawerProps> = ({
           )}
 
           {/* Ledger Accounting Impact */}
-          <div className="p-3 rounded-xl bg-[#FFF0EB]/60 dark:bg-[#3D160A]/60 border border-sand/40 text-xs space-y-1">
+          <div className="p-3 rounded-xl bg-[#EBECDC]/60 dark:bg-[#733635]/40 border border-sand/40 text-xs space-y-1">
             <span className="font-bold text-charcoal dark:text-text-dark block mb-1">
               Project Ledger Impact
             </span>

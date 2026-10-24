@@ -20,7 +20,7 @@ export const QuickActionDrawer: React.FC<QuickActionDrawerProps> = ({
       onClick={onClose}
     >
       <div
-        className="w-full sm:max-w-md bg-white dark:bg-[#1E1B15] border-t sm:border border-sand dark:border-sand-dark rounded-t-[24px] sm:rounded-2xl p-5 shadow-2xl animate-in slide-in-from-bottom-5 duration-200 space-y-4"
+        className="w-full sm:max-w-md bg-white dark:bg-[#11363E] border-t sm:border border-sand dark:border-sand-dark rounded-t-[24px] sm:rounded-2xl p-5 shadow-2xl animate-in slide-in-from-bottom-5 duration-200 space-y-4"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="w-12 h-1.5 bg-sand dark:bg-sand-dark rounded-full mx-auto sm:hidden" />
@@ -48,10 +48,10 @@ export const QuickActionDrawer: React.FC<QuickActionDrawerProps> = ({
               onClose();
               onSelectAction('expense');
             }}
-            className="w-full p-3.5 rounded-xl border border-sand dark:border-sand-dark bg-[#FFF0EB]/60 dark:bg-[#3D160A]/40 hover:bg-[#FFF0EB] flex items-center justify-between text-left transition-all active:scale-[0.99]"
+            className="w-full p-3.5 rounded-xl border border-sand dark:border-sand-dark bg-[#EBECDC]/60 dark:bg-[#733635]/30 hover:bg-[#EBECDC] flex items-center justify-between text-left transition-all active:scale-[0.99]"
           >
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-terracotta dark:bg-terracotta-dark text-white dark:text-[#17150F] flex items-center justify-center font-bold">
+              <div className="w-10 h-10 rounded-xl bg-terracotta dark:bg-terracotta-dark text-white dark:text-[#F6F5ED] flex items-center justify-center font-bold">
                 <Receipt size={18} />
               </div>
               <div>
@@ -73,10 +73,10 @@ export const QuickActionDrawer: React.FC<QuickActionDrawerProps> = ({
               onClose();
               onSelectAction('attendance');
             }}
-            className="w-full p-3.5 rounded-xl border border-sand dark:border-sand-dark bg-blue-50/50 dark:bg-blue-950/20 hover:bg-blue-50/80 flex items-center justify-between text-left transition-all active:scale-[0.99]"
+            className="w-full p-3.5 rounded-xl border border-sand dark:border-sand-dark bg-[#A0C9CB]/25 dark:bg-[#11363E]/40 hover:bg-[#A0C9CB]/40 flex items-center justify-between text-left transition-all active:scale-[0.99]"
           >
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold">
+              <div className="w-10 h-10 rounded-xl bg-[#11363E] dark:bg-[#A0C9CB] text-[#F6F5ED] dark:text-[#11363E] flex items-center justify-center font-bold">
                 <Users size={18} />
               </div>
               <div>
@@ -98,10 +98,10 @@ export const QuickActionDrawer: React.FC<QuickActionDrawerProps> = ({
               onClose();
               onSelectAction('payment');
             }}
-            className="w-full p-3.5 rounded-xl border border-sand dark:border-sand-dark bg-green-50/50 dark:bg-green-950/20 hover:bg-green-50/80 flex items-center justify-between text-left transition-all active:scale-[0.99]"
+            className="w-full p-3.5 rounded-xl border border-sand dark:border-sand-dark bg-[#EBECDC]/40 dark:bg-[#733635]/20 hover:bg-[#EBECDC]/70 flex items-center justify-between text-left transition-all active:scale-[0.99]"
           >
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-money-green text-white flex items-center justify-center font-bold">
+              <div className="w-10 h-10 rounded-xl bg-[#733635] text-[#F6F5ED] flex items-center justify-center font-bold">
                 <CreditCard size={18} />
               </div>
               <div>

@@ -17,7 +17,7 @@ export const BottomNav: React.FC<BottomNavProps> = ({
   pendingDueCount = 0,
 }) => {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-[#17150F]/95 backdrop-blur-md border-t border-sand dark:border-sand-dark pb-[env(safe-area-inset-bottom)] transition-colors">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-[#361E1C]/95 backdrop-blur-md border-t border-sand dark:border-sand-dark pb-[env(safe-area-inset-bottom)] transition-colors">
       <div className="grid grid-cols-5 items-center max-w-[900px] mx-auto h-[60px] px-1">
         {/* Col 1: Overview */}
         <button
@@ -78,7 +78,7 @@ export const BottomNav: React.FC<BottomNavProps> = ({
           <button
             type="button"
             onClick={onOpenQuickAction}
-            className="w-12 h-12 -mt-5 rounded-full bg-gradient-to-tr from-[#FF460E] to-[#FF6B3D] text-white flex items-center justify-center shadow-lg shadow-[#FF460E]/25 active:scale-95 transition-all focus:outline-none border-2 border-white dark:border-[#17150F]"
+            className="w-12 h-12 -mt-5 rounded-full bg-[#FF6038] text-[#F6F5ED] flex items-center justify-center shadow-lg shadow-[#FF6038]/30 active:scale-95 transition-all focus:outline-none border-2 border-white dark:border-[#361E1C]"
             title="Quick Action (+ Expense, Attendance, Payment)"
             aria-label="Add new entry"
           >

@@ -1,25 +1,44 @@
 @import "tailwindcss";
 
 @theme {
-  --color-plaster: #F6F3EE;
-  --color-surface-light: #FFFFFF;
-  --color-charcoal: #1F2328;
-  --color-stone: #6B7280;
-  --color-sand: #E5E0D6;
-  --color-terracotta: #FF460E;
-  --color-clay: #FFF0EB;
-  --color-money-green: #237A3B;
-  --color-money-red: #B42318;
+  /* Brand 7-Color Palette:
+     1. Bordeaux profond: #361E1C
+     2. Bordeaux: #733635
+     3. Orange corail: #FF6038 (Brand / Primary)
+     4. Bleu canard: #11363E (Secondary structural / Dark)
+     5. Aqua: #A0C9CB (Tertiary / Badges / Highlights)
+     6. Vert d'eau: #EBECDC (Surfaces & Subtle Borders)
+     7. Snow: #F6F5ED (Application Background)
+  */
+  --color-snow: #F6F5ED;
+  --color-orange-corail: #FF6038;
+  --color-bordeaux-profond: #361E1C;
+  --color-bordeaux: #733635;
+  --color-bleu-canard: #11363E;
+  --color-aqua: #A0C9CB;
+  --color-vert-deau: #EBECDC;
 
-  --color-bg-dark: #17150F;
-  --color-surface-dark: #221F17;
-  --color-text-dark: #F1EDE4;
-  --color-stone-dark: #A39D8F;
-  --color-sand-dark: #383327;
-  --color-terracotta-dark: #FF5E2E;
-  --color-clay-dark: #3D160A;
-  --color-money-green-dark: #5EC27A;
-  --color-money-red-dark: #F27A6D;
+  /* Aliases mapped strictly to the brand palette */
+  --color-plaster: #F6F5ED;
+  --color-surface-light: #FFFFFF;
+  --color-charcoal: #361E1C;
+  --color-stone: #733635;
+  --color-sand: #EBECDC;
+  --color-terracotta: #FF6038;
+  --color-clay: #EBECDC;
+  --color-money-green: #11363E;
+  --color-money-red: #733635;
+
+  /* Dark theme palette tokens */
+  --color-bg-dark: #361E1C;
+  --color-surface-dark: #11363E;
+  --color-text-dark: #F6F5ED;
+  --color-stone-dark: #A0C9CB;
+  --color-sand-dark: #733635;
+  --color-terracotta-dark: #FF6038;
+  --color-clay-dark: #733635;
+  --color-money-green-dark: #A0C9CB;
+  --color-money-red-dark: #FF6038;
 
   --font-brand: "Nunito Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -34,16 +53,16 @@
     font-family: var(--font-system);
     font-size: 15px;
     line-height: 1.45;
-    background-color: #F6F3EE;
-    color: #1F2328;
+    background-color: #F6F5ED;
+    color: #361E1C;
     -webkit-tap-highlight-color: transparent;
     padding-top: env(safe-area-inset-top);
     padding-bottom: env(safe-area-inset-bottom);
   }
 
   .dark body {
-    background-color: #17150F;
-    color: #F1EDE4;
+    background-color: #361E1C;
+    color: #F6F5ED;
   }
 
   /* Amounts and numbers tabular alignment */
@@ -52,25 +71,25 @@
   }
 }
 
-/* PRD Card Styles: 12px rounded, 1px Sand border, 14px padding */
+/* Card Styles: 12px rounded, 1px Vert d'eau border (#EBECDC), 14px padding */
 .hbt-card {
   border-radius: 12px;
   padding: 14px;
   border-width: 1px;
   border-style: solid;
-  border-color: #E5E0D6;
+  border-color: #EBECDC;
   background-color: #FFFFFF;
 }
 
 .dark .hbt-card {
-  border-color: #383327;
-  background-color: #221F17;
+  border-color: #733635;
+  background-color: #11363E;
 }
 
-/* PRD Button Styles with new Primary Color: #FF460E */
+/* Primary Button: Brand Orange corail (#FF6038) */
 .hbt-btn-primary {
-  background-color: #FF460E;
-  color: #FFFFFF;
+  background-color: #FF6038;
+  color: #F6F5ED;
   padding: 10px 14px;
   border-radius: 8px;
   font-weight: 600;
@@ -86,14 +105,15 @@
 }
 
 .dark .hbt-btn-primary {
-  background-color: #FF5E2E;
-  color: #FFFFFF;
+  background-color: #FF6038;
+  color: #F6F5ED;
 }
 
+/* Secondary Button: Bordeaux & Vert d'eau / Aqua */
 .hbt-btn-secondary {
   background-color: transparent;
-  color: #6B7280;
-  border: 1px solid #E5E0D6;
+  color: #733635;
+  border: 1px solid #EBECDC;
   padding: 8px 12px;
   border-radius: 8px;
   font-weight: 500;
@@ -105,23 +125,24 @@
 }
 
 .hbt-btn-secondary:hover {
-  background-color: rgba(0, 0, 0, 0.03);
+  background-color: #EBECDC;
 }
 
 .dark .hbt-btn-secondary {
-  border-color: #383327;
-  color: #A39D8F;
+  border-color: #733635;
+  color: #A0C9CB;
 }
 
 .dark .hbt-btn-secondary:hover {
-  background-color: rgba(255, 255, 255, 0.04);
+  background-color: rgba(160, 201, 203, 0.15);
 }
 
 /* Inputs: 8px rounded corners */
 .hbt-input {
   border-radius: 8px;
-  border: 1px solid #E5E0D6;
+  border: 1px solid #EBECDC;
   background-color: #FFFFFF;
+  color: #361E1C;
   padding: 9px 12px;
   font-size: 15px;
   outline: none;
@@ -130,15 +151,15 @@
 }
 
 .hbt-input:focus {
-  border-color: #FF460E;
+  border-color: #FF6038;
 }
 
 .dark .hbt-input {
-  background-color: #17150F;
-  border-color: #383327;
-  color: #F1EDE4;
+  background-color: #11363E;
+  border-color: #733635;
+  color: #F6F5ED;
 }
 
 .dark .hbt-input:focus {
-  border-color: #FF5E2E;
+  border-color: #FF6038;
 }

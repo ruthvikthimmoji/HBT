@@ -251,7 +251,7 @@ export const PaymentsTab: React.FC<PaymentsTabProps> = ({
                     onClick={() => handleSelectPayee(p)}
                     className={`text-[12px] px-2.5 py-0.5 rounded-full font-medium transition-colors ${
                       payee === p.name
-                        ? 'bg-terracotta dark:bg-terracotta-dark text-white dark:text-[#17150F] font-semibold'
+                        ? 'bg-terracotta dark:bg-terracotta-dark text-white dark:text-[#F6F5ED] font-semibold'
                         : 'bg-sand/30 dark:bg-sand-dark/30 text-stone dark:text-stone-dark hover:text-charcoal'
                     }`}
                   >
@@ -275,7 +275,7 @@ export const PaymentsTab: React.FC<PaymentsTabProps> = ({
                   onClick={() => setMode(m)}
                   className={`py-1.5 px-2 rounded-lg text-sm font-semibold transition-all select-none text-center ${
                     mode === m
-                      ? 'bg-terracotta dark:bg-terracotta-dark text-white dark:text-[#17150F] shadow-sm'
+                      ? 'bg-terracotta dark:bg-terracotta-dark text-white dark:text-[#F6F5ED] shadow-sm'
                       : 'bg-white dark:bg-surface-dark text-charcoal dark:text-text-dark border border-sand dark:border-sand-dark'
                   }`}
                 >
