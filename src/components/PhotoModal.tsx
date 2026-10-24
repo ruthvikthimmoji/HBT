@@ -16,26 +16,26 @@ export const PhotoModal: React.FC<PhotoModalProps> = ({ photoUrl, caption, onClo
       onClick={onClose}
     >
       <div
-        className="relative max-w-2xl w-full max-h-[90vh] bg-surface-dark border border-sand-dark rounded-xl overflow-hidden flex flex-col"
+        className="relative max-w-2xl w-full max-h-[90vh] bg-white border border-sand rounded-xl overflow-hidden flex flex-col shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header bar */}
-        <div className="flex items-center justify-between p-3 border-b border-sand-dark bg-[#361E1C]">
-          <span className="text-sm font-semibold text-text-dark truncate">
+        <div className="flex items-center justify-between p-3 border-b border-sand bg-[#361E1C] text-[#F6F5ED]">
+          <span className="text-sm font-semibold truncate">
             {caption || 'Receipt Preview'}
           </span>
           <div className="flex items-center gap-2">
             <a
               href={photoUrl}
               download="house-build-receipt.jpg"
-              className="p-1 rounded text-stone-dark hover:text-text-dark transition-colors"
+              className="p-1 rounded text-[#A0C9CB] hover:text-[#F6F5ED] transition-colors"
               title="Download full image"
             >
               <Download size={18} />
             </a>
             <button
               onClick={onClose}
-              className="p-1 rounded text-stone-dark hover:text-text-dark transition-colors"
+              className="p-1 rounded text-[#A0C9CB] hover:text-[#F6F5ED] transition-colors"
             >
               <X size={20} />
             </button>

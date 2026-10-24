@@ -2,13 +2,13 @@
 
 @theme {
   /* Brand 7-Color Palette:
-     1. Bordeaux profond: #361E1C
-     2. Bordeaux: #733635
-     3. Orange corail: #FF6038 (Brand / Primary)
-     4. Bleu canard: #11363E (Secondary structural / Dark)
-     5. Aqua: #A0C9CB (Tertiary / Badges / Highlights)
-     6. Vert d'eau: #EBECDC (Surfaces & Subtle Borders)
-     7. Snow: #F6F5ED (Application Background)
+     1. Bordeaux profond: #361E1C (Primary Text, Titles & High Contrast)
+     2. Bordeaux: #733635 (Secondary warm accent, Subtitles, Dates)
+     3. Orange corail: #FF6038 (Brand / Primary CTA Color)
+     4. Bleu canard: #11363E (Secondary structural, Badges, Dark accents)
+     5. Aqua: #A0C9CB (Tertiary accent, Highlights, Soft pills)
+     6. Vert d'eau: #EBECDC (Surfaces, Containers, Subtle borders)
+     7. Snow: #F6F5ED (Default Application Background)
   */
   --color-snow: #F6F5ED;
   --color-orange-corail: #FF6038;
@@ -29,40 +29,24 @@
   --color-money-green: #11363E;
   --color-money-red: #733635;
 
-  /* Dark theme palette tokens */
-  --color-bg-dark: #361E1C;
-  --color-surface-dark: #11363E;
-  --color-text-dark: #F6F5ED;
-  --color-stone-dark: #A0C9CB;
-  --color-sand-dark: #733635;
-  --color-terracotta-dark: #FF6038;
-  --color-clay-dark: #733635;
-  --color-money-green-dark: #A0C9CB;
-  --color-money-red-dark: #FF6038;
-
   --font-brand: "Nunito Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 @layer base {
   :root {
-    color-scheme: light dark;
+    color-scheme: light;
   }
 
-  body {
+  html, body {
     font-family: var(--font-system);
     font-size: 15px;
     line-height: 1.45;
-    background-color: #F6F5ED;
+    background-color: #F6F5ED !important;
     color: #361E1C;
     -webkit-tap-highlight-color: transparent;
     padding-top: env(safe-area-inset-top);
     padding-bottom: env(safe-area-inset-bottom);
-  }
-
-  .dark body {
-    background-color: #361E1C;
-    color: #F6F5ED;
   }
 
   /* Amounts and numbers tabular alignment */
@@ -71,7 +55,7 @@
   }
 }
 
-/* Card Styles: 12px rounded, 1px Vert d'eau border (#EBECDC), 14px padding */
+/* PRD Card Styles: 12px rounded, 1px Vert d'eau border (#EBECDC), 14px padding */
 .hbt-card {
   border-radius: 12px;
   padding: 14px;
@@ -79,11 +63,7 @@
   border-style: solid;
   border-color: #EBECDC;
   background-color: #FFFFFF;
-}
-
-.dark .hbt-card {
-  border-color: #733635;
-  background-color: #11363E;
+  box-shadow: 0 1px 3px rgba(54, 30, 28, 0.04);
 }
 
 /* Primary Button: Brand Orange corail (#FF6038) */
@@ -104,12 +84,11 @@
   transform: scale(0.98);
 }
 
-.dark .hbt-btn-primary {
-  background-color: #FF6038;
-  color: #F6F5ED;
+.hbt-btn-primary:hover {
+  background-color: #f2552d;
 }
 
-/* Secondary Button: Bordeaux & Vert d'eau / Aqua */
+/* Secondary Button: Bordeaux (#733635) & Vert d'eau border (#EBECDC) */
 .hbt-btn-secondary {
   background-color: transparent;
   color: #733635;
@@ -128,15 +107,6 @@
   background-color: #EBECDC;
 }
 
-.dark .hbt-btn-secondary {
-  border-color: #733635;
-  color: #A0C9CB;
-}
-
-.dark .hbt-btn-secondary:hover {
-  background-color: rgba(160, 201, 203, 0.15);
-}
-
 /* Inputs: 8px rounded corners */
 .hbt-input {
   border-radius: 8px;
@@ -151,15 +121,5 @@
 }
 
 .hbt-input:focus {
-  border-color: #FF6038;
-}
-
-.dark .hbt-input {
-  background-color: #11363E;
-  border-color: #733635;
-  color: #F6F5ED;
-}
-
-.dark .hbt-input:focus {
   border-color: #FF6038;
 }

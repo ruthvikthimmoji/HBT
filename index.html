@@ -9,6 +9,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="House Build" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="color-scheme" content="light" />
     <meta name="theme-color" content="#FF6038" />
     <meta name="description" content="Every rupee and every workday of your house build, in one place." />
     <title>House Build Tracker</title>
@@ -17,6 +18,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;1,6..12,600&display=swap" rel="stylesheet">
     <script>
+      // Immediately remove dark class to ensure snow background
+      document.documentElement.classList.remove('dark');
       if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('/sw.js').catch(() => {});
@@ -24,7 +27,7 @@
       }
     </script>
   </head>
-  <body class="bg-plaster dark:bg-bg-dark text-charcoal dark:text-text-dark antialiased transition-colors duration-150">
+  <body class="bg-[#F6F5ED] text-[#361E1C] antialiased">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

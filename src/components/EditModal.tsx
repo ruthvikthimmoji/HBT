@@ -89,14 +89,14 @@ export const EditModal: React.FC<EditModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-white dark:bg-surface-dark border border-sand dark:border-sand-dark rounded-xl max-w-md w-full p-4 space-y-4">
+      <div className="bg-white border border-sand rounded-xl max-w-md w-full p-4 space-y-4">
         <div className="flex items-center justify-between">
-          <h3 className="text-[16px] font-bold text-charcoal dark:text-text-dark font-['Nunito_Sans',sans-serif]">
+          <h3 className="text-[16px] font-bold text-charcoal font-['Nunito_Sans',sans-serif]">
             {type === 'expense' ? 'Edit Expense' : 'Edit Payment'}
           </h3>
           <button
             onClick={onClose}
-            className="text-stone hover:text-charcoal dark:hover:text-text-dark"
+            className="text-stone hover:text-charcoal"
           >
             <X size={18} />
           </button>
@@ -105,7 +105,7 @@ export const EditModal: React.FC<EditModalProps> = ({
         <form onSubmit={handleSubmit} className="space-y-3">
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="block text-xs text-stone dark:text-stone-dark mb-1 font-medium">
+              <label className="block text-xs text-stone mb-1 font-medium">
                 Date
               </label>
               <input
@@ -118,7 +118,7 @@ export const EditModal: React.FC<EditModalProps> = ({
             </div>
 
             <div>
-              <label className="block text-xs text-stone dark:text-stone-dark mb-1 font-medium">
+              <label className="block text-xs text-stone mb-1 font-medium">
                 Amount (₹)
               </label>
               <input
@@ -134,7 +134,7 @@ export const EditModal: React.FC<EditModalProps> = ({
           {type === 'expense' ? (
             <>
               <div>
-                <label className="block text-xs text-stone dark:text-stone-dark mb-1 font-medium">
+                <label className="block text-xs text-stone mb-1 font-medium">
                   Item / Description
                 </label>
                 <input
@@ -148,7 +148,7 @@ export const EditModal: React.FC<EditModalProps> = ({
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="block text-xs text-stone dark:text-stone-dark mb-1 font-medium">
+                  <label className="block text-xs text-stone mb-1 font-medium">
                     Category
                   </label>
                   <input
@@ -161,7 +161,7 @@ export const EditModal: React.FC<EditModalProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-xs text-stone dark:text-stone-dark mb-1 font-medium">
+                  <label className="block text-xs text-stone mb-1 font-medium">
                     Vendor (optional)
                   </label>
                   <input
@@ -176,7 +176,7 @@ export const EditModal: React.FC<EditModalProps> = ({
           ) : (
             <>
               <div>
-                <label className="block text-xs text-stone dark:text-stone-dark mb-1 font-medium">
+                <label className="block text-xs text-stone mb-1 font-medium">
                   Paid To
                 </label>
                 <input
@@ -189,7 +189,7 @@ export const EditModal: React.FC<EditModalProps> = ({
               </div>
 
               <div>
-                <label className="block text-xs text-stone dark:text-stone-dark mb-1 font-medium">
+                <label className="block text-xs text-stone mb-1 font-medium">
                   Mode
                 </label>
                 <div className="grid grid-cols-4 gap-2">
@@ -200,8 +200,8 @@ export const EditModal: React.FC<EditModalProps> = ({
                       onClick={() => setPaymentMode(m)}
                       className={`py-1.5 px-2 rounded-lg text-xs font-semibold select-none text-center ${
                         paymentMode === m
-                          ? 'bg-terracotta dark:bg-terracotta-dark text-white dark:text-[#F6F5ED]'
-                          : 'border border-sand dark:border-sand-dark text-charcoal dark:text-text-dark'
+                          ? 'bg-terracotta text-white'
+                          : 'border border-sand text-charcoal'
                       }`}
                     >
                       {m}
@@ -213,7 +213,7 @@ export const EditModal: React.FC<EditModalProps> = ({
           )}
 
           <div>
-            <label className="block text-xs text-stone dark:text-stone-dark mb-1 font-medium">
+            <label className="block text-xs text-stone mb-1 font-medium">
               Note (optional)
             </label>
             <input

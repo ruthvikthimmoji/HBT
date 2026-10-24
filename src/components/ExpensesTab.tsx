@@ -139,17 +139,17 @@ export const ExpensesTab: React.FC<ExpensesTabProps> = ({
       {/* 1. Quick Expense Entry Form */}
       <div className="hbt-card">
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-[16px] font-bold text-charcoal dark:text-text-dark font-['Nunito_Sans',sans-serif]">
+          <h2 className="text-[16px] font-bold text-charcoal font-['Nunito_Sans',sans-serif]">
             Add Expense
           </h2>
-          <span className="text-xs text-stone dark:text-stone-dark">Fast entry</span>
+          <span className="text-xs text-stone">Fast entry</span>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-3">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             {/* Date */}
             <div>
-              <label className="block text-[12px] text-stone dark:text-stone-dark mb-1 font-medium">
+              <label className="block text-[12px] text-stone mb-1 font-medium">
                 Date
               </label>
               <input
@@ -163,11 +163,11 @@ export const ExpensesTab: React.FC<ExpensesTabProps> = ({
 
             {/* Amount */}
             <div>
-              <label className="block text-[12px] text-stone dark:text-stone-dark mb-1 font-medium">
+              <label className="block text-[12px] text-stone mb-1 font-medium">
                 Amount (₹)
               </label>
               <div className="relative">
-                <span className="absolute left-3 top-2.5 text-stone dark:text-stone-dark font-bold">
+                <span className="absolute left-3 top-2.5 text-stone font-bold">
                   ₹
                 </span>
                 <input
@@ -176,7 +176,7 @@ export const ExpensesTab: React.FC<ExpensesTabProps> = ({
                   placeholder="0"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
-                  className="hbt-input w-full pl-8 font-bold text-charcoal dark:text-text-dark tabular-num text-base"
+                  className="hbt-input w-full pl-8 font-bold text-charcoal tabular-num text-base"
                   required
                 />
               </div>
@@ -185,7 +185,7 @@ export const ExpensesTab: React.FC<ExpensesTabProps> = ({
 
           {/* Item Description */}
           <div>
-            <label className="block text-[12px] text-stone dark:text-stone-dark mb-1 font-medium">
+            <label className="block text-[12px] text-stone mb-1 font-medium">
               Item or Work
             </label>
             <input
@@ -201,11 +201,11 @@ export const ExpensesTab: React.FC<ExpensesTabProps> = ({
           {/* Vendor */}
           <div>
             <div className="flex items-center justify-between mb-1">
-              <label className="block text-[12px] text-stone dark:text-stone-dark font-medium">
+              <label className="block text-[12px] text-stone font-medium">
                 Vendor / Supplier (optional)
               </label>
               {vendorSuggestions.length > 0 && (
-                <span className="text-[11px] text-stone dark:text-stone-dark">Auto-linked</span>
+                <span className="text-[11px] text-stone">Auto-linked</span>
               )}
             </div>
             <input
@@ -226,10 +226,10 @@ export const ExpensesTab: React.FC<ExpensesTabProps> = ({
           {/* Category with Suggestions */}
           <div>
             <div className="flex items-center justify-between mb-1">
-              <label className="block text-[12px] text-stone dark:text-stone-dark font-medium">
+              <label className="block text-[12px] text-stone font-medium">
                 Category
               </label>
-              <span className="text-[11px] text-stone dark:text-stone-dark">Tap to choose</span>
+              <span className="text-[11px] text-stone">Tap to choose</span>
             </div>
             <input
               type="text"
@@ -248,8 +248,8 @@ export const ExpensesTab: React.FC<ExpensesTabProps> = ({
                   onClick={() => setCategory(cat)}
                   className={`text-[12px] px-2.5 py-1 rounded-full font-medium transition-all ${
                     category === cat
-                      ? 'bg-terracotta dark:bg-terracotta-dark text-white dark:text-[#F6F5ED] font-semibold'
-                      : 'bg-sand/35 dark:bg-sand-dark/40 text-charcoal dark:text-text-dark hover:bg-sand/60'
+                      ? 'bg-terracotta text-white font-semibold'
+                      : 'bg-sand/35 text-charcoal hover:bg-sand/60'
                   }`}
                 >
                   {cat}
@@ -289,7 +289,7 @@ export const ExpensesTab: React.FC<ExpensesTabProps> = ({
                 <button
                   type="button"
                   onClick={() => setPhotoReceipt(undefined)}
-                  className="text-stone dark:text-stone-dark hover:text-money-red p-1"
+                  className="text-stone hover:text-money-red p-1"
                   title="Remove photo"
                 >
                   <X size={14} />
@@ -310,7 +310,7 @@ export const ExpensesTab: React.FC<ExpensesTabProps> = ({
       {/* 2. Filter & Search Controls */}
       <div className="flex flex-col sm:flex-row gap-2">
         <div className="relative flex-1">
-          <Search size={16} className="absolute left-3 top-3 text-stone dark:text-stone-dark" />
+          <Search size={16} className="absolute left-3 top-3 text-stone" />
           <input
             type="text"
             placeholder="Search items, vendors, notes..."
@@ -347,22 +347,22 @@ export const ExpensesTab: React.FC<ExpensesTabProps> = ({
       {/* 3. Expenses List */}
       <div className="hbt-card">
         <div className="flex items-center justify-between mb-2">
-          <h3 className="text-[15px] font-bold text-charcoal dark:text-text-dark font-['Nunito_Sans',sans-serif]">
+          <h3 className="text-[15px] font-bold text-charcoal font-['Nunito_Sans',sans-serif]">
             Expense History
           </h3>
-          <span className="text-xs text-stone dark:text-stone-dark">
+          <span className="text-xs text-stone">
             {filteredExpenses.length} entries
           </span>
         </div>
 
         {filteredExpenses.length === 0 ? (
-          <div className="py-8 text-center text-sm text-stone dark:text-stone-dark">
+          <div className="py-8 text-center text-sm text-stone">
             {searchQuery || selectedCategoryFilter !== 'all'
               ? 'No matching expenses found.'
               : 'No expenses yet.'}
           </div>
         ) : (
-          <div className="divide-y divide-sand/50 dark:divide-sand-dark/50">
+          <div className="divide-y divide-sand/50">
             {filteredExpenses.map((exp) => {
               const isConfirmingDelete = deleteConfirmId === exp.id;
 
@@ -374,20 +374,20 @@ export const ExpensesTab: React.FC<ExpensesTabProps> = ({
                 >
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-1.5 flex-wrap">
-                      <span className="font-bold text-[15px] text-charcoal dark:text-text-dark">
+                      <span className="font-bold text-[15px] text-charcoal">
                         {exp.item}
                       </span>
-                      <span className="text-[11px] px-2 py-0.2 rounded-full font-medium bg-[#EBECDC] dark:bg-[#733635] text-terracotta dark:text-terracotta-dark">
+                      <span className="text-[11px] px-2 py-0.2 rounded-full font-medium bg-[#EBECDC] text-terracotta">
                         {exp.category}
                       </span>
                     </div>
 
-                    <div className="text-xs text-stone dark:text-stone-dark mt-1 flex items-center gap-2 flex-wrap">
+                    <div className="text-xs text-stone mt-1 flex items-center gap-2 flex-wrap">
                       <span className="tabular-num">{exp.date}</span>
                       {exp.vendor && (
                         <>
                           <span>•</span>
-                          <span className="font-medium text-charcoal dark:text-text-dark">
+                          <span className="font-medium text-charcoal">
                             {exp.vendor}
                           </span>
                         </>
@@ -403,7 +403,7 @@ export const ExpensesTab: React.FC<ExpensesTabProps> = ({
 
                   {/* Right side: Amount + Photo thumbnail + Actions */}
                   <div className="text-right flex-shrink-0 flex flex-col items-end gap-1.5">
-                    <div className="text-[16px] font-bold text-charcoal dark:text-text-dark tabular-num whitespace-nowrap">
+                    <div className="text-[16px] font-bold text-charcoal tabular-num whitespace-nowrap">
                       {formatCurrency(exp.amount)}
                     </div>
 
@@ -425,7 +425,7 @@ export const ExpensesTab: React.FC<ExpensesTabProps> = ({
 
                       <button
                         onClick={() => onEditExpense(exp)}
-                        className="p-1 rounded text-stone hover:text-charcoal dark:text-stone-dark dark:hover:text-text-dark"
+                        className="p-1 rounded text-stone hover:text-charcoal"
                         title="Edit expense"
                       >
                         <Edit3 size={15} />

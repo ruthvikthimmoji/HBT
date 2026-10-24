@@ -175,7 +175,7 @@ export const AttendanceTab: React.FC<AttendanceTabProps> = ({
           <div className="flex items-center gap-1.5">
             <button
               onClick={handlePrevDay}
-              className="p-1.5 rounded-md hover:bg-sand/30 text-stone dark:text-stone-dark"
+              className="p-1.5 rounded-md hover:bg-sand/30 text-stone"
               title="Previous day"
             >
               <ChevronLeft size={18} />
@@ -185,12 +185,12 @@ export const AttendanceTab: React.FC<AttendanceTabProps> = ({
                 type="date"
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
-                className="font-bold text-[16px] bg-transparent text-charcoal dark:text-text-dark cursor-pointer outline-none border-b border-dashed border-sand pb-0.5"
+                className="font-bold text-[16px] bg-transparent text-charcoal cursor-pointer outline-none border-b border-dashed border-sand pb-0.5"
               />
             </div>
             <button
               onClick={handleNextDay}
-              className="p-1.5 rounded-md hover:bg-sand/30 text-stone dark:text-stone-dark"
+              className="p-1.5 rounded-md hover:bg-sand/30 text-stone"
               title="Next day"
             >
               <ChevronRight size={18} />
@@ -213,9 +213,9 @@ export const AttendanceTab: React.FC<AttendanceTabProps> = ({
         </div>
 
         {/* Daily Wage Stat Banner */}
-        <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#EBECDC]/80 dark:bg-[#733635]/60 border border-sand/40 dark:border-sand-dark/40 text-xs">
-          <div className="text-stone dark:text-stone-dark space-x-1.5">
-            <span className="font-semibold text-charcoal dark:text-text-dark">
+        <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#EBECDC]/80 border border-sand/40 text-xs">
+          <div className="text-stone space-x-1.5">
+            <span className="font-semibold text-charcoal">
               {dateSummary.presentCount} Full
             </span>
             <span>•</span>
@@ -224,8 +224,8 @@ export const AttendanceTab: React.FC<AttendanceTabProps> = ({
             <span>{dateSummary.absentCount} Absent</span>
           </div>
           <div className="text-right">
-            <span className="text-stone dark:text-stone-dark mr-1">Day Wage:</span>
-            <span className="font-bold text-sm text-charcoal dark:text-text-dark tabular-num">
+            <span className="text-stone mr-1">Day Wage:</span>
+            <span className="font-bold text-sm text-charcoal tabular-num">
               {formatCurrency(dateSummary.totalDailyWages)}
             </span>
           </div>
@@ -235,7 +235,7 @@ export const AttendanceTab: React.FC<AttendanceTabProps> = ({
       {/* 2. Worker Attendance Cards */}
       <div className="space-y-2.5">
         {activeWorkers.length === 0 ? (
-          <div className="hbt-card py-10 text-center text-sm text-stone dark:text-stone-dark">
+          <div className="hbt-card py-10 text-center text-sm text-stone">
             <p className="mb-3">No active workers found.</p>
             <button
               onClick={() => setIsWorkerModalOpen(true)}
@@ -256,17 +256,17 @@ export const AttendanceTab: React.FC<AttendanceTabProps> = ({
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="font-bold text-[15px] text-charcoal dark:text-text-dark">
+                      <span className="font-bold text-[15px] text-charcoal">
                         {worker.name}
                       </span>
-                      <span className="text-[11px] px-2 py-0.2 rounded-full font-medium bg-sand/30 dark:bg-sand-dark/30 text-stone dark:text-stone-dark">
+                      <span className="text-[11px] px-2 py-0.2 rounded-full font-medium bg-sand/30 text-stone">
                         {worker.role}
                       </span>
                     </div>
-                    <div className="text-xs text-stone dark:text-stone-dark mt-0.5 tabular-num">
+                    <div className="text-xs text-stone mt-0.5 tabular-num">
                       Daily rate: {formatCurrency(worker.rate)}
                       {currentLog && (
-                        <span className="ml-2 font-semibold text-charcoal dark:text-text-dark">
+                        <span className="ml-2 font-semibold text-charcoal">
                           (Earned today: {formatCurrency(wage)})
                         </span>
                       )}
@@ -283,7 +283,7 @@ export const AttendanceTab: React.FC<AttendanceTabProps> = ({
                         setCustomWageValue(currentLog ? String(currentLog.wage) : String(worker.rate));
                       }
                     }}
-                    className="text-xs text-stone dark:text-stone-dark hover:text-terracotta dark:hover:text-terracotta-dark flex items-center gap-1 font-medium"
+                    className="text-xs text-stone hover:text-terracotta flex items-center gap-1 font-medium"
                     title="Add overtime or custom daily wage"
                   >
                     <Clock size={13} />
@@ -298,8 +298,8 @@ export const AttendanceTab: React.FC<AttendanceTabProps> = ({
                     onClick={() => handleSetStatus(worker, 'full')}
                     className={`py-2 px-3 rounded-lg text-sm font-semibold transition-all select-none flex items-center justify-center gap-1 ${
                       currentStatus === 'full' && !currentLog?.customWage
-                        ? 'bg-terracotta dark:bg-terracotta-dark text-white dark:text-[#F6F5ED] shadow-sm'
-                        : 'bg-white dark:bg-surface-dark text-charcoal dark:text-text-dark border border-sand dark:border-sand-dark hover:border-terracotta/40'
+                        ? 'bg-terracotta text-white shadow-sm'
+                        : 'bg-white text-charcoal border border-sand hover:border-terracotta/40'
                     }`}
                   >
                     <span>Full (100%)</span>
@@ -310,8 +310,8 @@ export const AttendanceTab: React.FC<AttendanceTabProps> = ({
                     onClick={() => handleSetStatus(worker, 'half')}
                     className={`py-2 px-3 rounded-lg text-sm font-semibold transition-all select-none flex items-center justify-center gap-1 ${
                       currentStatus === 'half'
-                        ? 'bg-terracotta dark:bg-terracotta-dark text-white dark:text-[#F6F5ED] shadow-sm'
-                        : 'bg-white dark:bg-surface-dark text-charcoal dark:text-text-dark border border-sand dark:border-sand-dark hover:border-terracotta/40'
+                        ? 'bg-terracotta text-white shadow-sm'
+                        : 'bg-white text-charcoal border border-sand hover:border-terracotta/40'
                     }`}
                   >
                     <span>Half (50%)</span>
@@ -322,8 +322,8 @@ export const AttendanceTab: React.FC<AttendanceTabProps> = ({
                     onClick={() => handleSetStatus(worker, 'absent')}
                     className={`py-2 px-3 rounded-lg text-sm font-semibold transition-all select-none flex items-center justify-center gap-1 ${
                       currentStatus === 'absent'
-                        ? 'bg-terracotta dark:bg-terracotta-dark text-white dark:text-[#F6F5ED] shadow-sm'
-                        : 'bg-white dark:bg-surface-dark text-charcoal dark:text-text-dark border border-sand dark:border-sand-dark hover:border-terracotta/40'
+                        ? 'bg-terracotta text-white shadow-sm'
+                        : 'bg-white text-charcoal border border-sand hover:border-terracotta/40'
                     }`}
                   >
                     <span>Absent (0)</span>
@@ -332,8 +332,8 @@ export const AttendanceTab: React.FC<AttendanceTabProps> = ({
 
                 {/* Custom Wage / Overtime Inline Editor */}
                 {isEditingCustomWage && (
-                  <div className="p-2.5 rounded-lg bg-sand/20 dark:bg-sand-dark/20 flex items-center gap-2">
-                    <span className="text-xs text-stone dark:text-stone-dark font-medium">
+                  <div className="p-2.5 rounded-lg bg-sand/20 flex items-center gap-2">
+                    <span className="text-xs text-stone font-medium">
                       Exact Wage (₹):
                     </span>
                     <input
@@ -360,11 +360,11 @@ export const AttendanceTab: React.FC<AttendanceTabProps> = ({
 
       {/* 3. Wages & Days Worked Summary Card */}
       <div className="hbt-card">
-        <h3 className="text-[15px] font-bold text-charcoal dark:text-text-dark font-['Nunito_Sans',sans-serif] mb-3">
+        <h3 className="text-[15px] font-bold text-charcoal font-['Nunito_Sans',sans-serif] mb-3">
           Wages & Days Worked Summary
         </h3>
 
-        <div className="divide-y divide-sand/50 dark:divide-sand-dark/50">
+        <div className="divide-y divide-sand/50">
           {workers.map((w) => {
             const stats = computeWorkerStats(w.id, logs);
 
@@ -374,9 +374,9 @@ export const AttendanceTab: React.FC<AttendanceTabProps> = ({
                 className="py-2.5 flex items-center justify-between text-sm first:pt-1 last:pb-1"
               >
                 <div>
-                  <div className="font-semibold text-charcoal dark:text-text-dark flex items-center gap-1.5">
+                  <div className="font-semibold text-charcoal flex items-center gap-1.5">
                     <span>{w.name}</span>
-                    <span className="text-[11px] font-normal text-stone dark:text-stone-dark">
+                    <span className="text-[11px] font-normal text-stone">
                       ({w.role})
                     </span>
                     {!w.active && (
@@ -385,18 +385,18 @@ export const AttendanceTab: React.FC<AttendanceTabProps> = ({
                       </span>
                     )}
                   </div>
-                  <div className="text-xs text-stone dark:text-stone-dark mt-0.5">
+                  <div className="text-xs text-stone mt-0.5">
                     {stats.daysWorked} days worked • Rate: {formatCurrency(w.rate)}/day
                   </div>
                 </div>
 
                 <div className="text-right">
-                  <div className="font-bold text-charcoal dark:text-text-dark tabular-num">
+                  <div className="font-bold text-charcoal tabular-num">
                     {formatCurrency(stats.totalEarned)}
                   </div>
                   <button
                     onClick={() => openEditWorker(w)}
-                    className="text-[11px] text-terracotta dark:text-terracotta-dark hover:underline"
+                    className="text-[11px] text-terracotta hover:underline"
                   >
                     Edit rate
                   </button>
@@ -410,14 +410,14 @@ export const AttendanceTab: React.FC<AttendanceTabProps> = ({
       {/* Manage Workers Modal */}
       {isWorkerModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-surface-dark border border-sand dark:border-sand-dark rounded-xl max-w-md w-full p-4 space-y-4">
+          <div className="bg-white border border-sand rounded-xl max-w-md w-full p-4 space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-[16px] font-bold text-charcoal dark:text-text-dark font-['Nunito_Sans',sans-serif]">
+              <h3 className="text-[16px] font-bold text-charcoal font-['Nunito_Sans',sans-serif]">
                 {editingWorker ? 'Edit Worker' : 'Add New Worker'}
               </h3>
               <button
                 onClick={() => setIsWorkerModalOpen(false)}
-                className="text-stone hover:text-charcoal dark:hover:text-text-dark"
+                className="text-stone hover:text-charcoal"
               >
                 <X size={18} />
               </button>
@@ -425,7 +425,7 @@ export const AttendanceTab: React.FC<AttendanceTabProps> = ({
 
             <form onSubmit={handleWorkerSubmit} className="space-y-3">
               <div>
-                <label className="block text-xs text-stone dark:text-stone-dark mb-1 font-medium">
+                <label className="block text-xs text-stone mb-1 font-medium">
                   Worker Name
                 </label>
                 <input
@@ -440,7 +440,7 @@ export const AttendanceTab: React.FC<AttendanceTabProps> = ({
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="block text-xs text-stone dark:text-stone-dark mb-1 font-medium">
+                  <label className="block text-xs text-stone mb-1 font-medium">
                     Role / Trade
                   </label>
                   <input
@@ -454,7 +454,7 @@ export const AttendanceTab: React.FC<AttendanceTabProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-xs text-stone dark:text-stone-dark mb-1 font-medium">
+                  <label className="block text-xs text-stone mb-1 font-medium">
                     Daily Wage Rate (₹)
                   </label>
                   <input
@@ -469,7 +469,7 @@ export const AttendanceTab: React.FC<AttendanceTabProps> = ({
               </div>
 
               <div>
-                <label className="block text-xs text-stone dark:text-stone-dark mb-1 font-medium">
+                <label className="block text-xs text-stone mb-1 font-medium">
                   Phone (optional)
                 </label>
                 <input

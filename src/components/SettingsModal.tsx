@@ -165,20 +165,20 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-      <div className="bg-white dark:bg-surface-dark border border-sand dark:border-sand-dark rounded-xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-4 space-y-4">
+      <div className="bg-white border border-sand rounded-xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-4 space-y-4">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-sand/50 dark:border-sand-dark/50 pb-3">
+        <div className="flex items-center justify-between border-b border-sand/50 pb-3">
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg bg-terracotta/15 dark:bg-terracotta-dark/20 text-terracotta dark:text-terracotta-dark flex items-center justify-center">
+            <div className="w-7 h-7 rounded-lg bg-terracotta/15 text-terracotta flex items-center justify-center">
               <FileSpreadsheet size={16} />
             </div>
-            <h2 className="text-[17px] font-bold text-charcoal dark:text-text-dark font-['Nunito_Sans',sans-serif]">
+            <h2 className="text-[17px] font-bold text-charcoal font-['Nunito_Sans',sans-serif]">
               Google Sheets &amp; Settings
             </h2>
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded text-stone hover:text-charcoal dark:hover:text-text-dark"
+            className="p-1 rounded text-stone hover:text-charcoal"
           >
             <X size={20} />
           </button>
@@ -189,18 +189,18 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
           href={settings.sheetUrl || 'https://docs.google.com/spreadsheets/d/1L6LaIz140FAXVm6Up-lSQ6RygOuHZtYuEd12kuqjMfk/edit?usp=sharing'}
           target="_blank"
           rel="noreferrer"
-          className="border border-sand dark:border-sand-dark rounded-xl p-3 flex items-center justify-between hover:bg-sand/20 dark:hover:bg-sand-dark/20 transition-all bg-[#EBECDC]/50 dark:bg-[#733635]/30 group"
+          className="border border-sand rounded-xl p-3 flex items-center justify-between hover:bg-sand/20 transition-all bg-[#EBECDC]/50 group"
         >
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-lg bg-money-green/15 text-money-green dark:text-money-green-dark flex items-center justify-center">
+            <div className="w-9 h-9 rounded-lg bg-money-green/15 text-money-green flex items-center justify-center">
               <FileSpreadsheet size={20} />
             </div>
             <div>
-              <div className="text-sm font-bold text-charcoal dark:text-text-dark flex items-center gap-1.5">
+              <div className="text-sm font-bold text-charcoal flex items-center gap-1.5">
                 <span>Open Linked Google Sheet Tracker</span>
                 <ExternalLink size={13} className="text-stone group-hover:text-money-green transition-colors" />
               </div>
-              <div className="text-xs text-stone dark:text-stone-dark">
+              <div className="text-xs text-stone">
                 {settings.projectName || 'My House Construction'} (1L6LaIz...Sheet)
               </div>
             </div>
@@ -209,26 +209,26 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 
         <form onSubmit={handleSave} className="space-y-4">
           {/* 2. Google Sheets Live Sync Setup */}
-          <div className="space-y-3 border border-sand dark:border-sand-dark rounded-xl p-3.5 bg-white dark:bg-surface-dark">
+          <div className="space-y-3 border border-sand rounded-xl p-3.5 bg-white">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1.5">
-                <Cloud size={16} className="text-terracotta dark:text-terracotta-dark" />
-                <h3 className="text-sm font-bold text-charcoal dark:text-text-dark">
+                <Cloud size={16} className="text-terracotta" />
+                <h3 className="text-sm font-bold text-charcoal">
                   Google Sheets Sync Setup
                 </h3>
               </div>
               <button
                 type="button"
                 onClick={() => setShowGuide(!showGuide)}
-                className="text-xs text-terracotta dark:text-terracotta-dark font-medium hover:underline"
+                className="text-xs text-terracotta font-medium hover:underline"
               >
                 {showGuide ? 'Hide Guide' : 'Setup Guide'}
               </button>
             </div>
 
             {/* Quick 1-Click Copy Script Button */}
-            <div className="flex items-center justify-between p-2 rounded-lg bg-sand/25 dark:bg-sand-dark/30">
-              <span className="text-xs text-charcoal dark:text-text-dark font-medium">
+            <div className="flex items-center justify-between p-2 rounded-lg bg-sand/25">
+              <span className="text-xs text-charcoal font-medium">
                 Backend Script (<code className="text-terracotta">Code.gs</code>)
               </span>
               <button
@@ -242,11 +242,11 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             </div>
 
             {showGuide && (
-              <div className="p-3 rounded-lg bg-[#EBECDC]/80 dark:bg-[#733635]/60 border border-sand dark:border-sand-dark text-xs space-y-2">
-                <p className="font-bold text-charcoal dark:text-text-dark">
+              <div className="p-3 rounded-lg bg-[#EBECDC]/80 border border-sand text-xs space-y-2">
+                <p className="font-bold text-charcoal">
                   2-Minute Connection Instructions:
                 </p>
-                <ol className="list-decimal list-inside space-y-1.5 text-stone dark:text-stone-dark">
+                <ol className="list-decimal list-inside space-y-1.5 text-stone">
                   <li>Click <strong>Open Google Sheets</strong> above (or visit <code className="bg-sand/40 px-1 py-0.5 rounded">sheets.new</code>).</li>
                   <li>Click <strong>Extensions &gt; Apps Script</strong>.</li>
                   <li>Click <strong>Copy Script Code</strong> button above and paste it over everything in <code className="bg-sand/40 px-1 py-0.5 rounded">Code.gs</code>.</li>
@@ -258,7 +258,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             )}
 
             <div>
-              <label className="block text-xs text-stone dark:text-stone-dark mb-1 font-medium">
+              <label className="block text-xs text-stone mb-1 font-medium">
                 Google Apps Script Web App URL
               </label>
               <input
@@ -285,7 +285,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                 type="button"
                 onClick={handleAutoSetupSheet}
                 disabled={isSettingUp || !gasUrl.trim()}
-                className="hbt-btn-secondary text-xs flex items-center justify-center gap-1.5 border-terracotta/40 text-terracotta dark:text-terracotta-dark font-semibold"
+                className="hbt-btn-secondary text-xs flex items-center justify-center gap-1.5 border-terracotta/40 text-terracotta font-semibold"
                 title="Automatically creates Summary, Expenses, Workers and Formulas in your blank Sheet"
               >
                 <Sparkles size={13} />
@@ -307,8 +307,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               <div
                 className={`p-2.5 rounded-lg text-xs flex items-center gap-2 ${
                   testResult.success
-                    ? 'bg-money-green/10 text-money-green dark:text-money-green-dark border border-money-green/20'
-                    : 'bg-money-red/10 text-money-red dark:text-money-red-dark border border-money-red/20'
+                    ? 'bg-money-green/10 text-money-green border border-money-green/20'
+                    : 'bg-money-red/10 text-money-red border border-money-red/20'
                 }`}
               >
                 {testResult.success ? <CheckCircle2 size={16} /> : <AlertCircle size={16} />}
@@ -319,13 +319,13 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 
           {/* 3. Project & Total Budget */}
           <div className="space-y-3">
-            <h3 className="text-sm font-bold text-charcoal dark:text-text-dark">
+            <h3 className="text-sm font-bold text-charcoal">
               Project Details
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               <div>
-                <label className="block text-xs text-stone dark:text-stone-dark mb-1 font-medium">
+                <label className="block text-xs text-stone mb-1 font-medium">
                   Project Name
                 </label>
                 <input
@@ -339,7 +339,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               </div>
 
               <div>
-                <label className="block text-xs text-stone dark:text-stone-dark mb-1 font-medium">
+                <label className="block text-xs text-stone mb-1 font-medium">
                   Total Budget (₹)
                 </label>
                 <div className="relative">
@@ -349,7 +349,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                     value={budget}
                     onChange={(e) => setBudget(e.target.value)}
                     placeholder="e.g. 4500000"
-                    className="hbt-input w-full pl-8 font-bold text-charcoal dark:text-text-dark tabular-num"
+                    className="hbt-input w-full pl-8 font-bold text-charcoal tabular-num"
                     required
                   />
                 </div>
@@ -358,18 +358,18 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
           </div>
 
           {/* 4. Category Budgets */}
-          <div className="space-y-2 border-t border-sand/50 dark:border-sand-dark/50 pt-3">
+          <div className="space-y-2 border-t border-sand/50 pt-3">
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-bold text-charcoal dark:text-text-dark">
+              <h3 className="text-sm font-bold text-charcoal">
                 Category Budgets (v2)
               </h3>
-              <span className="text-[11px] text-stone dark:text-stone-dark">Optional limits</span>
+              <span className="text-[11px] text-stone">Optional limits</span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 max-h-40 overflow-y-auto pr-1">
               {allBudgetCategories.map((cat) => (
                 <div key={cat} className="flex items-center justify-between gap-2 text-xs">
-                  <span className="truncate text-charcoal dark:text-text-dark font-medium flex-1">
+                  <span className="truncate text-charcoal font-medium flex-1">
                     {cat}
                   </span>
                   <input
@@ -385,19 +385,19 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
           </div>
 
           {/* 5. Mobile Wi-Fi Testing QR Code */}
-          <div className="border-t border-sand/50 dark:border-sand-dark/50 pt-3">
-            <div className="flex items-center gap-3 p-3 rounded-xl bg-sand/15 dark:bg-sand-dark/20 border border-sand/40">
+          <div className="border-t border-sand/50 pt-3">
+            <div className="flex items-center gap-3 p-3 rounded-xl bg-sand/15 border border-sand/40">
               <img
                 src={qrImageUrl}
                 alt="Scan to open on phone"
                 className="w-20 h-20 rounded-lg bg-white p-1 border border-sand flex-shrink-0"
               />
               <div className="min-w-0">
-                <div className="flex items-center gap-1.5 text-xs font-bold text-charcoal dark:text-text-dark">
+                <div className="flex items-center gap-1.5 text-xs font-bold text-charcoal">
                   <QrCode size={14} className="text-terracotta" />
                   <span>Open on Mobile Camera</span>
                 </div>
-                <p className="text-[11px] text-stone dark:text-stone-dark mt-0.5 leading-snug">
+                <p className="text-[11px] text-stone mt-0.5 leading-snug">
                   Connect phone to same Wi-Fi, open Camera, and point here to test on-site entry!
                 </p>
                 <code className="text-[10px] text-terracotta mt-1 block truncate">
@@ -408,8 +408,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
           </div>
 
           {/* 6. Data Management & Excel Export */}
-          <div className="space-y-2 border-t border-sand/50 dark:border-sand-dark/50 pt-3">
-            <h3 className="text-sm font-bold text-charcoal dark:text-text-dark">
+          <div className="space-y-2 border-t border-sand/50 pt-3">
+            <h3 className="text-sm font-bold text-charcoal">
               Data Backup &amp; Reset
             </h3>
 
@@ -446,14 +446,14 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                   onClose();
                 }
               }}
-              className="w-full text-xs text-money-red dark:text-money-red-dark hover:underline py-1 text-center font-medium"
+              className="w-full text-xs text-money-red hover:underline py-1 text-center font-medium"
             >
               Clear All Data &amp; Reset
             </button>
           </div>
 
           {/* Action buttons */}
-          <div className="pt-2 flex items-center justify-end gap-2 border-t border-sand/50 dark:border-sand-dark/50">
+          <div className="pt-2 flex items-center justify-end gap-2 border-t border-sand/50">
             <button type="button" onClick={onClose} className="hbt-btn-secondary text-xs">
               Cancel
             </button>

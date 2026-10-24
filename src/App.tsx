@@ -59,21 +59,11 @@ export const App: React.FC = () => {
     item: Expense | Payment | null;
   }>({ type: null, item: null });
 
-  // Dark mode
-  const [isDark, setIsDark] = useState<boolean>(() => {
-    const saved = localStorage.getItem('hbt_dark');
-    if (saved !== null) return saved === 'true';
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
-  });
-
+  // Enforce single default brand theme (Snow background)
   useEffect(() => {
-    if (isDark) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-    localStorage.setItem('hbt_dark', String(isDark));
-  }, [isDark]);
+    document.documentElement.classList.remove('dark');
+    localStorage.removeItem('hbt_dark');
+  }, []);
 
   // Persist state updates to localStorage
   useEffect(() => {
@@ -340,15 +330,13 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-plaster dark:bg-[#361E1C] flex flex-col transition-colors selection:bg-[#EBECDC] selection:text-terracotta">
+    <div className="min-h-screen bg-[#F6F5ED] flex flex-col selection:bg-[#EBECDC] selection:text-[#FF6038]">
       {/* Top Mobile Header */}
       <Header
         projectName={settings.projectName}
         isSynced={Boolean(settings.gasWebAppUrl && settings.lastSyncedAt)}
         sheetUrl={settings.sheetUrl}
         lastSyncedAt={settings.lastSyncedAt}
-        isDark={isDark}
-        onToggleTheme={() => setIsDark(!isDark)}
         onOpenSettings={() => setIsSettingsOpen(true)}
         onExportExcel={handleExportExcel}
       />

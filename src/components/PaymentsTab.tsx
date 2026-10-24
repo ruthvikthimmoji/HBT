@@ -158,17 +158,17 @@ export const PaymentsTab: React.FC<PaymentsTabProps> = ({
       {/* 1. Quick Payment Entry Form */}
       <div className="hbt-card">
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-[16px] font-bold text-charcoal dark:text-text-dark font-['Nunito_Sans',sans-serif]">
+          <h2 className="text-[16px] font-bold text-charcoal font-['Nunito_Sans',sans-serif]">
             Record Payment
           </h2>
-          <span className="text-xs text-stone dark:text-stone-dark">Disbursement</span>
+          <span className="text-xs text-stone">Disbursement</span>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-3">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             {/* Date */}
             <div>
-              <label className="block text-[12px] text-stone dark:text-stone-dark mb-1 font-medium">
+              <label className="block text-[12px] text-stone mb-1 font-medium">
                 Payment Date
               </label>
               <input
@@ -182,11 +182,11 @@ export const PaymentsTab: React.FC<PaymentsTabProps> = ({
 
             {/* Amount */}
             <div>
-              <label className="block text-[12px] text-stone dark:text-stone-dark mb-1 font-medium">
+              <label className="block text-[12px] text-stone mb-1 font-medium">
                 Amount Paid (₹)
               </label>
               <div className="relative">
-                <span className="absolute left-3 top-2.5 text-stone dark:text-stone-dark font-bold">
+                <span className="absolute left-3 top-2.5 text-stone font-bold">
                   ₹
                 </span>
                 <input
@@ -195,7 +195,7 @@ export const PaymentsTab: React.FC<PaymentsTabProps> = ({
                   placeholder="0"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
-                  className="hbt-input w-full pl-8 font-bold text-charcoal dark:text-text-dark tabular-num text-base"
+                  className="hbt-input w-full pl-8 font-bold text-charcoal tabular-num text-base"
                   required
                 />
               </div>
@@ -205,10 +205,10 @@ export const PaymentsTab: React.FC<PaymentsTabProps> = ({
           {/* Paid To (Worker / Vendor) */}
           <div>
             <div className="flex items-center justify-between mb-1">
-              <label className="block text-[12px] text-stone dark:text-stone-dark font-medium">
+              <label className="block text-[12px] text-stone font-medium">
                 Paid To (Worker or Vendor)
               </label>
-              <span className="text-[11px] text-stone dark:text-stone-dark">Autocomplete</span>
+              <span className="text-[11px] text-stone">Autocomplete</span>
             </div>
             <input
               type="text"
@@ -251,8 +251,8 @@ export const PaymentsTab: React.FC<PaymentsTabProps> = ({
                     onClick={() => handleSelectPayee(p)}
                     className={`text-[12px] px-2.5 py-0.5 rounded-full font-medium transition-colors ${
                       payee === p.name
-                        ? 'bg-terracotta dark:bg-terracotta-dark text-white dark:text-[#F6F5ED] font-semibold'
-                        : 'bg-sand/30 dark:bg-sand-dark/30 text-stone dark:text-stone-dark hover:text-charcoal'
+                        ? 'bg-terracotta text-white font-semibold'
+                        : 'bg-sand/30 text-stone hover:text-charcoal'
                     }`}
                   >
                     {p.name}
@@ -264,7 +264,7 @@ export const PaymentsTab: React.FC<PaymentsTabProps> = ({
 
           {/* Payment Mode Selection */}
           <div>
-            <label className="block text-[12px] text-stone dark:text-stone-dark mb-1 font-medium">
+            <label className="block text-[12px] text-stone mb-1 font-medium">
               Payment Mode
             </label>
             <div className="grid grid-cols-4 gap-2">
@@ -275,8 +275,8 @@ export const PaymentsTab: React.FC<PaymentsTabProps> = ({
                   onClick={() => setMode(m)}
                   className={`py-1.5 px-2 rounded-lg text-sm font-semibold transition-all select-none text-center ${
                     mode === m
-                      ? 'bg-terracotta dark:bg-terracotta-dark text-white dark:text-[#F6F5ED] shadow-sm'
-                      : 'bg-white dark:bg-surface-dark text-charcoal dark:text-text-dark border border-sand dark:border-sand-dark'
+                      ? 'bg-terracotta text-white shadow-sm'
+                      : 'bg-white text-charcoal border border-sand'
                   }`}
                 >
                   {m}
@@ -287,7 +287,7 @@ export const PaymentsTab: React.FC<PaymentsTabProps> = ({
 
           {/* Note & Photo Proof Attachment */}
           <div>
-            <label className="block text-[12px] text-stone dark:text-stone-dark mb-1 font-medium">
+            <label className="block text-[12px] text-stone mb-1 font-medium">
               Note (optional)
             </label>
             <input
@@ -329,7 +329,7 @@ export const PaymentsTab: React.FC<PaymentsTabProps> = ({
                 <button
                   type="button"
                   onClick={() => setPhotoProof(undefined)}
-                  className="text-stone dark:text-stone-dark hover:text-money-red p-1"
+                  className="text-stone hover:text-money-red p-1"
                   title="Remove screenshot"
                 >
                   <X size={14} />
@@ -350,20 +350,20 @@ export const PaymentsTab: React.FC<PaymentsTabProps> = ({
       {/* 2. Payment Records List */}
       <div className="hbt-card">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-[15px] font-bold text-charcoal dark:text-text-dark font-['Nunito_Sans',sans-serif]">
+          <h3 className="text-[15px] font-bold text-charcoal font-['Nunito_Sans',sans-serif]">
             Payment Log
           </h3>
-          <span className="text-xs text-stone dark:text-stone-dark">
+          <span className="text-xs text-stone">
             {sortedPayments.length} payments
           </span>
         </div>
 
         {sortedPayments.length === 0 ? (
-          <div className="py-8 text-center text-sm text-stone dark:text-stone-dark">
+          <div className="py-8 text-center text-sm text-stone">
             No payments recorded yet.
           </div>
         ) : (
-          <div className="divide-y divide-sand/50 dark:divide-sand-dark/50">
+          <div className="divide-y divide-sand/50">
             {sortedPayments.map((p) => {
               const isConfirmingDelete = deleteConfirmId === p.id;
 
@@ -375,15 +375,15 @@ export const PaymentsTab: React.FC<PaymentsTabProps> = ({
                 >
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-1.5 flex-wrap">
-                      <span className="font-bold text-[15px] text-charcoal dark:text-text-dark">
+                      <span className="font-bold text-[15px] text-charcoal">
                         {p.payee}
                       </span>
-                      <span className="text-[11px] px-2 py-0.2 rounded-full font-medium bg-sand/35 dark:bg-sand-dark/40 text-stone dark:text-stone-dark">
+                      <span className="text-[11px] px-2 py-0.2 rounded-full font-medium bg-sand/35 text-stone">
                         {p.mode}
                       </span>
                     </div>
 
-                    <div className="text-xs text-stone dark:text-stone-dark mt-1 flex items-center gap-2 flex-wrap">
+                    <div className="text-xs text-stone mt-1 flex items-center gap-2 flex-wrap">
                       <span className="tabular-num">{p.date}</span>
                       {p.note && (
                         <>
@@ -396,7 +396,7 @@ export const PaymentsTab: React.FC<PaymentsTabProps> = ({
 
                   {/* Right side: Amount + Screenshot + Actions */}
                   <div className="text-right flex-shrink-0 flex flex-col items-end gap-1.5">
-                    <div className="text-[16px] font-bold text-money-green dark:text-money-green-dark tabular-num whitespace-nowrap">
+                    <div className="text-[16px] font-bold text-money-green tabular-num whitespace-nowrap">
                       {formatCurrency(p.amount)}
                     </div>
 
@@ -418,7 +418,7 @@ export const PaymentsTab: React.FC<PaymentsTabProps> = ({
 
                       <button
                         onClick={() => onEditPayment(p)}
-                        className="p-1 rounded text-stone hover:text-charcoal dark:text-stone-dark dark:hover:text-text-dark"
+                        className="p-1 rounded text-stone hover:text-charcoal"
                         title="Edit payment"
                       >
                         <Edit3 size={15} />

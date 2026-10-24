@@ -129,7 +129,7 @@ export const FullLogsView: React.FC<FullLogsViewProps> = ({
       {/* Search & Top Action */}
       <div className="flex items-center gap-2">
         <div className="relative flex-1">
-          <Search size={15} className="absolute left-3 top-3 text-stone dark:text-stone-dark" />
+          <Search size={15} className="absolute left-3 top-3 text-stone" />
           <input
             type="text"
             placeholder="Search all entered logs, bills, names..."
@@ -170,8 +170,8 @@ export const FullLogsView: React.FC<FullLogsViewProps> = ({
             onClick={() => setFilterType(f.id as any)}
             className={`px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-colors ${
               filterType === f.id
-                ? 'bg-terracotta dark:bg-terracotta-dark text-white dark:text-[#F6F5ED]'
-                : 'bg-white dark:bg-surface-dark text-stone dark:text-stone-dark border border-sand dark:border-sand-dark'
+                ? 'bg-terracotta text-white'
+                : 'bg-white text-stone border border-sand'
             }`}
           >
             {f.label}
@@ -190,8 +190,8 @@ export const FullLogsView: React.FC<FullLogsViewProps> = ({
             onClick={() => setDateFilter(d.id as any)}
             className={`px-2.5 py-1.5 rounded-full text-[11px] font-medium whitespace-nowrap transition-colors ${
               dateFilter === d.id
-                ? 'bg-sand/60 dark:bg-sand-dark/60 text-charcoal dark:text-text-dark font-bold'
-                : 'text-stone dark:text-stone-dark hover:bg-sand/20'
+                ? 'bg-sand/60 text-charcoal font-bold'
+                : 'text-stone hover:bg-sand/20'
             }`}
           >
             {d.label}
@@ -200,11 +200,11 @@ export const FullLogsView: React.FC<FullLogsViewProps> = ({
       </div>
 
       {/* Filter Count & Total Bar */}
-      <div className="flex items-center justify-between text-xs text-stone dark:text-stone-dark px-1">
+      <div className="flex items-center justify-between text-xs text-stone px-1">
         <span>Showing {filteredLogs.length} logs</span>
         <span>
           Total Value:{' '}
-          <strong className="text-charcoal dark:text-text-dark font-bold tabular-num">
+          <strong className="text-charcoal font-bold tabular-num">
             {formatCurrency(totalFilteredAmount)}
           </strong>
         </span>
@@ -213,7 +213,7 @@ export const FullLogsView: React.FC<FullLogsViewProps> = ({
       {/* Unified Log Records List */}
       <div className="space-y-2">
         {filteredLogs.length === 0 ? (
-          <div className="hbt-card py-12 text-center text-sm text-stone dark:text-stone-dark">
+          <div className="hbt-card py-12 text-center text-sm text-stone">
             <p>No matching logs found.</p>
             <p className="text-xs text-stone/80 mt-1">Tap + below to add an expense or attendance.</p>
           </div>
@@ -229,10 +229,10 @@ export const FullLogsView: React.FC<FullLogsViewProps> = ({
                 <div
                   className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
                     item.type === 'expense'
-                      ? 'bg-[#EBECDC] text-terracotta dark:bg-[#733635] dark:text-[#F6F5ED]'
+                      ? 'bg-[#EBECDC] text-terracotta'
                       : item.type === 'attendance'
-                      ? 'bg-[#A0C9CB]/40 text-[#11363E] dark:bg-[#11363E] dark:text-[#A0C9CB]'
-                      : 'bg-[#EBECDC] text-[#733635] dark:bg-[#733635] dark:text-[#A0C9CB]'
+                      ? 'bg-[#A0C9CB]/40 text-[#11363E]'
+                      : 'bg-[#EBECDC] text-[#733635]'
                   }`}
                 >
                   {item.type === 'expense' && <Receipt size={18} />}
@@ -243,16 +243,16 @@ export const FullLogsView: React.FC<FullLogsViewProps> = ({
                 {/* Info Text */}
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-1.5 flex-wrap">
-                    <span className="font-bold text-[14px] text-charcoal dark:text-text-dark truncate">
+                    <span className="font-bold text-[14px] text-charcoal truncate">
                       {item.title}
                     </span>
                     {item.category && (
-                      <span className="text-[10px] px-1.5 py-0.2 rounded font-medium bg-sand/30 dark:bg-sand-dark/30 text-stone dark:text-stone-dark">
+                      <span className="text-[10px] px-1.5 py-0.2 rounded font-medium bg-sand/30 text-stone">
                         {item.category}
                       </span>
                     )}
                   </div>
-                  <div className="text-xs text-stone dark:text-stone-dark mt-0.5 flex items-center gap-1.5 truncate">
+                  <div className="text-xs text-stone mt-0.5 flex items-center gap-1.5 truncate">
                     <span className="tabular-num">{item.date}</span>
                     <span>•</span>
                     <span className="truncate">{item.subtitle}</span>
@@ -266,21 +266,21 @@ export const FullLogsView: React.FC<FullLogsViewProps> = ({
                   <div
                     className={`font-bold text-[15px] tabular-num ${
                       item.type === 'payment'
-                        ? 'text-money-green dark:text-money-green-dark'
-                        : 'text-charcoal dark:text-text-dark'
+                        ? 'text-money-green'
+                        : 'text-charcoal'
                     }`}
                   >
                     {formatCurrency(item.amount)}
                   </div>
                   {item.photoUrl && (
-                    <span className="text-[10px] text-terracotta dark:text-terracotta-dark font-medium block">
+                    <span className="text-[10px] text-terracotta font-medium block">
                       📷 Receipt
                     </span>
                   )}
                 </div>
                 <ArrowUpRight
                   size={15}
-                  className="text-stone dark:text-stone-dark group-hover:text-terracotta transition-colors"
+                  className="text-stone group-hover:text-terracotta transition-colors"
                 />
               </div>
             </div>
