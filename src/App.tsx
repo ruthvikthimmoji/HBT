@@ -37,7 +37,7 @@ import {
   DEFAULT_SETTINGS_V2,
 } from './utils/storageV2';
 import { exportToExcelV2, syncWithGAS, postToGAS, pushAllDataToGAS } from './utils/gasSyncV2';
-import { CloudOff, RefreshCw, ExternalLink, ArrowRight } from 'lucide-react';
+import { CloudOff, RefreshCw, ExternalLink, ArrowRight, CheckCircle2, AlertTriangle, X as CloseIcon } from 'lucide-react';
 
 import { HeaderV2 } from './components/v2/HeaderV2';
 import { BottomNavV2, MainTabV2 } from './components/v2/BottomNavV2';
@@ -106,6 +106,48 @@ export const App: React.FC = () => {
   const [isPushingAll, setIsPushingAll] = useState(false);
   const [pushStatusMessage, setPushStatusMessage] = useState<string | null>(null);
 
+  // Floating Toast Notification System
+  const [toast, setToast] = useState<{
+    message: string;
+    type: 'info' | 'success' | 'warning' | 'error';
+    action?: { label: string; onClick: () => void };
+  } | null>(null);
+
+  const showToast = useCallback(
+    (
+      message: string,
+      type: 'info' | 'success' | 'warning' | 'error' = 'info',
+      duration = 4000,
+      action?: { label: string; onClick: () => void }
+    ) => {
+      setToast({ message, type, action });
+      setTimeout(() => {
+        setToast((curr) => (curr?.message === message ? null : curr));
+      }, duration);
+    },
+    []
+  );
+
+  // Check if opened on mobile via quick-connect link (?gas=...)
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const gasParam = params.get('gas');
+      if (gasParam && gasParam.startsWith('https://script.google.com/macros/s/')) {
+        const decoded = decodeURIComponent(gasParam).trim();
+        setSettings((prev) => ({
+          ...prev,
+          gasWebAppUrl: decoded,
+          lastSyncedAt: new Date().toISOString(),
+        }));
+        window.history.replaceState({}, document.title, window.location.pathname);
+        showToast('Connected to Google Sheet live sync on this device!', 'success', 5000);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }, [showToast]);
+
   // Enforce single default brand theme (Snow background)
   useEffect(() => {
     document.documentElement.classList.remove('dark');
@@ -161,11 +203,24 @@ export const App: React.FC = () => {
       }
       return [record, ...prev];
     });
-    // Auto-sync in background to Google Sheet if connected
-    if (settings.gasWebAppUrl) {
-      postToGAS(settings.gasWebAppUrl, 'addPayment', record);
+
+    if (!settings.gasWebAppUrl) {
+      showToast('Saved locally. Google Sheet is not connected on this device.', 'warning', 6000, {
+        label: 'Connect',
+        onClick: () => setIsSettingsOpen(true),
+      });
+    } else {
+      showToast('Syncing payment to Google Sheet...', 'info', 2000);
+      postToGAS(settings.gasWebAppUrl, 'addPayment', record).then((res) => {
+        if (res.success) {
+          showToast(`Synced payment ${record.id} to Google Sheet!`, 'success', 3500);
+          setSettings((s) => ({ ...s, lastSyncedAt: new Date().toISOString() }));
+        } else {
+          showToast(`Failed syncing to Sheet: ${res.error}`, 'error', 4500);
+        }
+      });
     }
-  }, [settings.gasWebAppUrl]);
+  }, [settings.gasWebAppUrl, showToast]);
 
   const handleDeletePayment = useCallback((id: string) => {
     setPayments((prev) => prev.filter((p) => p.id !== id));
@@ -182,11 +237,24 @@ export const App: React.FC = () => {
       }
       return [record, ...prev];
     });
-    // Auto-sync in background to Google Sheet if connected
-    if (settings.gasWebAppUrl) {
-      postToGAS(settings.gasWebAppUrl, 'addAgreement', record);
+
+    if (!settings.gasWebAppUrl) {
+      showToast('Saved locally. Google Sheet is not connected on this device.', 'warning', 6000, {
+        label: 'Connect',
+        onClick: () => setIsSettingsOpen(true),
+      });
+    } else {
+      showToast('Syncing agreement to Google Sheet...', 'info', 2000);
+      postToGAS(settings.gasWebAppUrl, 'addAgreement', record).then((res) => {
+        if (res.success) {
+          showToast(`Synced agreement ${record.id} to Google Sheet!`, 'success', 3500);
+          setSettings((s) => ({ ...s, lastSyncedAt: new Date().toISOString() }));
+        } else {
+          showToast(`Failed syncing to Sheet: ${res.error}`, 'error', 4500);
+        }
+      });
     }
-  }, [settings.gasWebAppUrl]);
+  }, [settings.gasWebAppUrl, showToast]);
 
   const handleUpdateAgreementProgress = useCallback((id: string, newPercent: number) => {
     setAgreements((prev) =>
@@ -202,14 +270,19 @@ export const App: React.FC = () => {
             status: (newPercent >= 100 && agr.balanceToPay <= 0 ? 'Completed' : agr.status) as Agreement['status'],
           };
           if (settings.gasWebAppUrl) {
-            postToGAS(settings.gasWebAppUrl, 'updateAgreement', updated);
+            postToGAS(settings.gasWebAppUrl, 'updateAgreement', updated).then((res) => {
+              if (res.success) {
+                showToast(`Updated progress to ${newPercent}% on Google Sheet!`, 'success', 3000);
+                setSettings((s) => ({ ...s, lastSyncedAt: new Date().toISOString() }));
+              }
+            });
           }
           return updated;
         }
         return agr;
       })
     );
-  }, [settings.gasWebAppUrl]);
+  }, [settings.gasWebAppUrl, showToast]);
 
   const handleDeleteAgreement = useCallback((id: string) => {
     setAgreements((prev) => prev.filter((a) => a.id !== id));
@@ -226,10 +299,24 @@ export const App: React.FC = () => {
       }
       return [record, ...prev];
     });
-    if (settings.gasWebAppUrl) {
-      postToGAS(settings.gasWebAppUrl, 'addMaterial', record);
+
+    if (!settings.gasWebAppUrl) {
+      showToast('Saved locally. Google Sheet is not connected on this device.', 'warning', 6000, {
+        label: 'Connect',
+        onClick: () => setIsSettingsOpen(true),
+      });
+    } else {
+      showToast('Syncing material to Google Sheet...', 'info', 2000);
+      postToGAS(settings.gasWebAppUrl, 'addMaterial', record).then((res) => {
+        if (res.success) {
+          showToast(`Synced material to Google Sheet!`, 'success', 3500);
+          setSettings((s) => ({ ...s, lastSyncedAt: new Date().toISOString() }));
+        } else {
+          showToast(`Failed syncing to Sheet: ${res.error}`, 'error', 4500);
+        }
+      });
     }
-  }, [settings.gasWebAppUrl]);
+  }, [settings.gasWebAppUrl, showToast]);
 
   const handleToggleMaterialPayment = useCallback((id: string) => {
     setMaterials((prev) =>
@@ -240,14 +327,19 @@ export const App: React.FC = () => {
             paymentStatus: (m.paymentStatus === 'Paid' ? 'Pending' : 'Paid') as 'Paid' | 'Pending',
           };
           if (settings.gasWebAppUrl) {
-            postToGAS(settings.gasWebAppUrl, 'updateMaterial', updated);
+            postToGAS(settings.gasWebAppUrl, 'updateMaterial', updated).then((res) => {
+              if (res.success) {
+                showToast(`Updated payment status on Google Sheet!`, 'success', 3000);
+                setSettings((s) => ({ ...s, lastSyncedAt: new Date().toISOString() }));
+              }
+            });
           }
           return updated;
         }
         return m;
       })
     );
-  }, [settings.gasWebAppUrl]);
+  }, [settings.gasWebAppUrl, showToast]);
 
   // Handlers for Site Logs
   const handleSaveSiteLog = useCallback((record: SiteDailyLog) => {
@@ -260,18 +352,46 @@ export const App: React.FC = () => {
       }
       return [record, ...prev];
     });
-    if (settings.gasWebAppUrl) {
-      postToGAS(settings.gasWebAppUrl, 'addSiteLog', record);
+
+    if (!settings.gasWebAppUrl) {
+      showToast('Saved locally. Google Sheet is not connected on this device.', 'warning', 6000, {
+        label: 'Connect',
+        onClick: () => setIsSettingsOpen(true),
+      });
+    } else {
+      showToast('Syncing site log to Google Sheet...', 'info', 2000);
+      postToGAS(settings.gasWebAppUrl, 'addSiteLog', record).then((res) => {
+        if (res.success) {
+          showToast(`Synced site log to Google Sheet!`, 'success', 3500);
+          setSettings((s) => ({ ...s, lastSyncedAt: new Date().toISOString() }));
+        } else {
+          showToast(`Failed syncing to Sheet: ${res.error}`, 'error', 4500);
+        }
+      });
     }
-  }, [settings.gasWebAppUrl]);
+  }, [settings.gasWebAppUrl, showToast]);
 
   // Handlers for Schedule
   const handleSaveSchedule = useCallback((item: ScheduledPayment) => {
     setSchedule((prev) => [item, ...prev]);
-    if (settings.gasWebAppUrl) {
-      postToGAS(settings.gasWebAppUrl, 'addSchedule', item);
+
+    if (!settings.gasWebAppUrl) {
+      showToast('Saved locally. Google Sheet is not connected on this device.', 'warning', 6000, {
+        label: 'Connect',
+        onClick: () => setIsSettingsOpen(true),
+      });
+    } else {
+      showToast('Syncing schedule milestone to Google Sheet...', 'info', 2000);
+      postToGAS(settings.gasWebAppUrl, 'addSchedule', item).then((res) => {
+        if (res.success) {
+          showToast(`Synced milestone to Google Sheet!`, 'success', 3500);
+          setSettings((s) => ({ ...s, lastSyncedAt: new Date().toISOString() }));
+        } else {
+          showToast(`Failed syncing to Sheet: ${res.error}`, 'error', 4500);
+        }
+      });
     }
-  }, [settings.gasWebAppUrl]);
+  }, [settings.gasWebAppUrl, showToast]);
 
   const handleMarkSchedulePaid = useCallback((item: ScheduledPayment) => {
     // Open payment modal prefilled with milestone information
@@ -404,7 +524,48 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F6F5ED] flex flex-col selection:bg-[#EBECDC] selection:text-[#FF6038]">
+    <div className="min-h-screen bg-[#F6F5ED] flex flex-col selection:bg-[#EBECDC] selection:text-[#FF6038] relative">
+      {/* Floating Real-time Mobile Toast Notification */}
+      {toast && (
+        <div className="fixed top-3 left-1/2 -translate-x-1/2 z-50 max-w-[94vw] w-[460px] animate-in fade-in slide-in-from-top-3 duration-200">
+          <div
+            className={`p-3 rounded-2xl shadow-xl border flex items-center justify-between gap-3 text-xs ${
+              toast.type === 'success'
+                ? 'bg-[#11363E] text-white border-emerald-400/50'
+                : toast.type === 'warning'
+                ? 'bg-[#361E1C] text-white border-[#FF6038]/80'
+                : toast.type === 'error'
+                ? 'bg-rose-950 text-white border-rose-500'
+                : 'bg-[#11363E] text-white border-[#A0C9CB]'
+            }`}
+          >
+            <div className="flex items-center gap-2.5">
+              {toast.type === 'success' && <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />}
+              {toast.type === 'warning' && <AlertTriangle className="w-4 h-4 text-[#FF6038] shrink-0" />}
+              {toast.type === 'error' && <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0" />}
+              {toast.type === 'info' && <RefreshCw className="w-4 h-4 text-sky-400 animate-spin shrink-0" />}
+              <span className="font-semibold leading-snug">{toast.message}</span>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              {toast.action && (
+                <button
+                  onClick={toast.action.onClick}
+                  className="px-2.5 py-1 bg-[#FF6038] hover:bg-[#FF6038]/90 text-white font-bold rounded-lg text-[11px] active:scale-95 cursor-pointer shadow-xs"
+                >
+                  {toast.action.label}
+                </button>
+              )}
+              <button
+                onClick={() => setToast(null)}
+                className="p-1 text-white/70 hover:text-white rounded-md cursor-pointer"
+              >
+                <CloseIcon className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* 1. Top Header */}
       <HeaderV2
         projectName={settings.projectName}

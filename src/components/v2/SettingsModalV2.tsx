@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AppSettingsV2 } from '../../types/v2';
-import { GAS_V2_SCRIPT_TEMPLATE } from '../../utils/gasSyncV2';
+import { GAS_V2_SCRIPT_TEMPLATE, testGASConnection } from '../../utils/gasSyncV2';
 import {
   X,
   Cloud,
@@ -11,6 +11,9 @@ import {
   ExternalLink,
   RefreshCw,
   Trash2,
+  Smartphone,
+  CheckCircle2,
+  AlertTriangle,
 } from 'lucide-react';
 
 interface SettingsModalV2Props {
@@ -43,6 +46,9 @@ export const SettingsModalV2: React.FC<SettingsModalV2Props> = ({
   const [isPushing, setIsPushing] = useState(false);
   const [syncStatus, setSyncStatus] = useState<string | null>(null);
   const [showGuide, setShowGuide] = useState(!settings.gasWebAppUrl);
+  const [isTesting, setIsTesting] = useState(false);
+  const [testResult, setTestResult] = useState<{ success: boolean; message: string } | null>(null);
+  const [copiedMobileLink, setCopiedMobileLink] = useState(false);
 
   if (!isOpen) return null;
 
@@ -50,6 +56,34 @@ export const SettingsModalV2: React.FC<SettingsModalV2Props> = ({
     navigator.clipboard.writeText(GAS_V2_SCRIPT_TEMPLATE);
     setCopiedScript(true);
     setTimeout(() => setCopiedScript(false), 2500);
+  };
+
+  const handleTestConnection = async () => {
+    if (!gasWebAppUrl) {
+      setTestResult({ success: false, message: 'Please enter your Google Apps Script Web App URL first.' });
+      return;
+    }
+    setIsTesting(true);
+    setTestResult(null);
+    try {
+      const res = await testGASConnection(gasWebAppUrl);
+      setTestResult(res);
+    } catch (e: any) {
+      setTestResult({ success: false, message: e?.message || 'Connection failed.' });
+    } finally {
+      setIsTesting(false);
+    }
+  };
+
+  const handleCopyMobileLink = () => {
+    if (!gasWebAppUrl) {
+      alert('Please enter your Google Apps Script Web App URL first!');
+      return;
+    }
+    const mobileLink = `${window.location.origin}${window.location.pathname}?gas=${encodeURIComponent(gasWebAppUrl.trim())}`;
+    navigator.clipboard.writeText(mobileLink);
+    setCopiedMobileLink(true);
+    setTimeout(() => setCopiedMobileLink(false), 3500);
   };
 
   const handlePushAll = async () => {
@@ -232,13 +266,67 @@ export const SettingsModalV2: React.FC<SettingsModalV2Props> = ({
                 <input
                   type="url"
                   value={gasWebAppUrl}
-                  onChange={(e) => setGasWebAppUrl(e.target.value)}
+                  onChange={(e) => {
+                    setGasWebAppUrl(e.target.value);
+                    setTestResult(null);
+                  }}
                   placeholder="https://script.google.com/macros/s/.../exec"
                   className="hbt-input flex-1 text-xs"
                 />
+                <button
+                  type="button"
+                  onClick={handleTestConnection}
+                  disabled={isTesting || !gasWebAppUrl}
+                  className="px-3 py-2 bg-[#11363E] hover:bg-[#11363E]/90 disabled:opacity-50 text-white rounded-lg text-xs font-semibold whitespace-nowrap cursor-pointer transition-all active:scale-98"
+                >
+                  {isTesting ? 'Testing...' : 'Test Connection'}
+                </button>
               </div>
 
-              <div className="flex items-center gap-2 mt-2">
+              {testResult && (
+                <div
+                  className={`mt-2 p-2.5 rounded-lg text-xs flex items-start gap-2 ${
+                    testResult.success
+                      ? 'bg-emerald-50 border border-emerald-200 text-emerald-800'
+                      : 'bg-rose-50 border border-rose-200 text-rose-800'
+                  }`}
+                >
+                  {testResult.success ? (
+                    <CheckCircle2 size={15} className="text-emerald-600 shrink-0 mt-0.5" />
+                  ) : (
+                    <AlertTriangle size={15} className="text-rose-600 shrink-0 mt-0.5" />
+                  )}
+                  <div>
+                    <span className="font-bold">{testResult.success ? 'Connected: ' : 'Test Failed: '}</span>
+                    <span>{testResult.message}</span>
+                  </div>
+                </div>
+              )}
+
+              {/* Share to Mobile Quick-Connect Button */}
+              {gasWebAppUrl && (
+                <div className="mt-3 p-2.5 bg-white border border-[#A0C9CB]/60 rounded-xl">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <Smartphone size={16} className="text-[#11363E]" />
+                      <div>
+                        <div className="text-xs font-bold text-[#361E1C]">Use On Your Mobile Phone</div>
+                        <div className="text-[10px] text-[#733635]">1-click link to auto-connect your phone without typing</div>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleCopyMobileLink}
+                      className="px-2.5 py-1.5 bg-[#EBECDC] hover:bg-[#EBECDC]/80 text-[#361E1C] text-[11px] font-bold rounded-lg transition-all flex items-center gap-1 active:scale-98 cursor-pointer"
+                    >
+                      {copiedMobileLink ? <Check size={12} className="text-emerald-600" /> : <Copy size={12} />}
+                      <span>{copiedMobileLink ? 'Link Copied!' : 'Copy Mobile Link'}</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              <div className="flex items-center gap-2 mt-3">
                 <button
                   type="button"
                   onClick={handlePushAll}
@@ -269,7 +357,7 @@ export const SettingsModalV2: React.FC<SettingsModalV2Props> = ({
                   }`}
                 >
                   {syncStatus === 'success_push'
-                    ? '✓ All local records successfully pushed to your Google Sheet!'
+                    ? '✓ All local records successfully pushed to your Google Sheet (rows 5..504)!'
                     : syncStatus === 'success'
                     ? '✓ Synced with Google Sheet!'
                     : `Sync Error: ${syncStatus}`}
