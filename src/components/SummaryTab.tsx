@@ -181,7 +181,7 @@ export const SummaryTab: React.FC<SummaryTabProps> = ({
                 </div>
 
                 {/* 8px high proportion bar (Clay tint track, Terracotta fill) */}
-                <div className="w-full h-2 rounded-full bg-[#FBEEE5] dark:bg-[#33241A] overflow-hidden">
+                <div className="w-full h-2 rounded-full bg-[#FFF0EB] dark:bg-[#3D160A] overflow-hidden">
                   <div
                     className="h-full rounded-full transition-all duration-300 bg-terracotta dark:bg-terracotta-dark"
                     style={{ width: `${Math.min(100, Math.max(2, cat.percentage))}%` }}

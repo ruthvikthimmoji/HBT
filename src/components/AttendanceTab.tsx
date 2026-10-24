@@ -213,7 +213,7 @@ export const AttendanceTab: React.FC<AttendanceTabProps> = ({
         </div>
 
         {/* Daily Wage Stat Banner */}
-        <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#FBEEE5]/60 dark:bg-[#33241A]/60 border border-sand/40 dark:border-sand-dark/40 text-xs">
+        <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#FFF0EB]/80 dark:bg-[#3D160A]/80 border border-sand/40 dark:border-sand-dark/40 text-xs">
           <div className="text-stone dark:text-stone-dark space-x-1.5">
             <span className="font-semibold text-charcoal dark:text-text-dark">
               {dateSummary.presentCount} Full

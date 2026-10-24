@@ -189,7 +189,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
           href={settings.sheetUrl || 'https://docs.google.com/spreadsheets/d/1L6LaIz140FAXVm6Up-lSQ6RygOuHZtYuEd12kuqjMfk/edit?usp=sharing'}
           target="_blank"
           rel="noreferrer"
-          className="border border-sand dark:border-sand-dark rounded-xl p-3 flex items-center justify-between hover:bg-sand/20 dark:hover:bg-sand-dark/20 transition-all bg-[#FBEEE5]/30 dark:bg-[#33241A]/30 group"
+          className="border border-sand dark:border-sand-dark rounded-xl p-3 flex items-center justify-between hover:bg-sand/20 dark:hover:bg-sand-dark/20 transition-all bg-[#FFF0EB]/50 dark:bg-[#3D160A]/30 group"
         >
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-lg bg-money-green/15 text-money-green dark:text-money-green-dark flex items-center justify-center">
@@ -242,7 +242,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             </div>
 
             {showGuide && (
-              <div className="p-3 rounded-lg bg-[#FBEEE5]/60 dark:bg-[#33241A]/60 border border-sand dark:border-sand-dark text-xs space-y-2">
+              <div className="p-3 rounded-lg bg-[#FFF0EB]/80 dark:bg-[#3D160A]/60 border border-sand dark:border-sand-dark text-xs space-y-2">
                 <p className="font-bold text-charcoal dark:text-text-dark">
                   2-Minute Connection Instructions:
                 </p>

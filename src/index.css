@@ -6,8 +6,8 @@
   --color-charcoal: #1F2328;
   --color-stone: #6B7280;
   --color-sand: #E5E0D6;
-  --color-terracotta: #B4531F;
-  --color-clay: #FBEEE5;
+  --color-terracotta: #FF460E;
+  --color-clay: #FFF0EB;
   --color-money-green: #237A3B;
   --color-money-red: #B42318;
 
@@ -16,8 +16,8 @@
   --color-text-dark: #F1EDE4;
   --color-stone-dark: #A39D8F;
   --color-sand-dark: #383327;
-  --color-terracotta-dark: #E8814A;
-  --color-clay-dark: #33241A;
+  --color-terracotta-dark: #FF5E2E;
+  --color-clay-dark: #3D160A;
   --color-money-green-dark: #5EC27A;
   --color-money-red-dark: #F27A6D;
 
@@ -67,9 +67,9 @@
   background-color: #221F17;
 }
 
-/* PRD Button Styles */
+/* PRD Button Styles with new Primary Color: #FF460E */
 .hbt-btn-primary {
-  background-color: #B4531F;
+  background-color: #FF460E;
   color: #FFFFFF;
   padding: 10px 14px;
   border-radius: 8px;
@@ -86,8 +86,8 @@
 }
 
 .dark .hbt-btn-primary {
-  background-color: #E8814A;
-  color: #17150F;
+  background-color: #FF5E2E;
+  color: #FFFFFF;
 }
 
 .hbt-btn-secondary {
@@ -130,7 +130,7 @@
 }
 
 .hbt-input:focus {
-  border-color: #B4531F;
+  border-color: #FF460E;
 }
 
 .dark .hbt-input {
@@ -140,5 +140,5 @@
 }
 
 .dark .hbt-input:focus {
-  border-color: #E8814A;
+  border-color: #FF5E2E;
 }

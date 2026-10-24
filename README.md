@@ -84,8 +84,8 @@ House Build Tracker is a fast, responsive mobile-and-web Progressive Web Applica
 | **Text (Charcoal)** | `#1F2328` | `#F1EDE4` | Headings & body |
 | **Muted Text (Stone)** | `#6B7280` | `#A39D8F` | Labels & secondary info |
 | **Border (Sand)** | `#E5E0D6` | `#383327` | Card & input borders |
-| **Primary (Terracotta)** | `#B4531F` | `#E8814A` | Main actions, active tabs |
-| **Primary Tint (Clay)** | `#FBEEE5` | `#33241A` | Progress track, soft badges |
+| **Primary (Brand Vermilion)** | `#FF460E` | `#FF5E2E` | Main actions, active tabs, buttons |
+| **Primary Tint (Soft Warm)** | `#FFF0EB` | `#3D160A` | Progress track, soft badges |
 | **Positive (Green)** | `#237A3B` | `#5EC27A` | Paid & settled balances |
 | **Negative (Red)** | `#B42318` | `#F27A6D` | Pending dues & over budget |
 

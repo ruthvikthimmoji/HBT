@@ -229,7 +229,7 @@ export const FullLogsView: React.FC<FullLogsViewProps> = ({
                 <div
                   className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
                     item.type === 'expense'
-                      ? 'bg-[#FBEEE5] text-terracotta dark:bg-[#33241A] dark:text-terracotta-dark'
+                      ? 'bg-[#FFF0EB] text-terracotta dark:bg-[#3D160A] dark:text-terracotta-dark'
                       : item.type === 'attendance'
                       ? 'bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-300'
                       : 'bg-money-green/10 text-money-green dark:text-money-green-dark'

@@ -78,7 +78,7 @@ export const BottomNav: React.FC<BottomNavProps> = ({
           <button
             type="button"
             onClick={onOpenQuickAction}
-            className="w-12 h-12 -mt-5 rounded-full bg-gradient-to-tr from-terracotta to-[#C8642D] text-white flex items-center justify-center shadow-lg active:scale-95 transition-all focus:outline-none border-2 border-white dark:border-[#17150F]"
+            className="w-12 h-12 -mt-5 rounded-full bg-gradient-to-tr from-[#FF460E] to-[#FF6B3D] text-white flex items-center justify-center shadow-lg shadow-[#FF460E]/25 active:scale-95 transition-all focus:outline-none border-2 border-white dark:border-[#17150F]"
             title="Quick Action (+ Expense, Attendance, Payment)"
             aria-label="Add new entry"
           >

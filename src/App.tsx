@@ -340,7 +340,7 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-plaster dark:bg-[#17150F] flex flex-col transition-colors selection:bg-[#FBEEE5] selection:text-terracotta">
+    <div className="min-h-screen bg-plaster dark:bg-[#17150F] flex flex-col transition-colors selection:bg-[#FFF0EB] selection:text-terracotta">
       {/* Top Mobile Header */}
       <Header
         projectName={settings.projectName}

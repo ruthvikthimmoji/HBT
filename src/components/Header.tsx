@@ -32,7 +32,7 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="flex items-center justify-between text-xs mb-1.5">
           <div className="flex items-center gap-2">
             {isSynced ? (
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#FBEEE5] dark:bg-[#33241A] text-terracotta dark:text-terracotta-dark font-medium">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#FFF0EB] dark:bg-[#3D160A] text-terracotta dark:text-terracotta-dark font-medium">
                 <Cloud size={13} className="text-terracotta dark:text-terracotta-dark" />
                 <span>Synced with Google Sheet</span>
                 {lastSyncedAt && (
@@ -94,8 +94,8 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Main Branding Title */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-terracotta dark:bg-terracotta-dark text-white dark:text-[#17150F] flex items-center justify-center font-bold text-lg shadow-sm flex-shrink-0">
-              🏠
+            <div className="w-10 h-10 rounded-xl bg-white dark:bg-[#221F17] border border-sand/70 dark:border-sand-dark flex items-center justify-center p-1 shadow-sm flex-shrink-0">
+              <img src="/logo.png" alt="HB Logo" className="w-full h-full object-contain" />
             </div>
             <div>
               <h1 className="text-[17px] font-bold leading-tight tracking-tight text-charcoal dark:text-text-dark font-['Nunito_Sans',sans-serif]">

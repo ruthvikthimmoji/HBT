@@ -377,7 +377,7 @@ export const ExpensesTab: React.FC<ExpensesTabProps> = ({
                       <span className="font-bold text-[15px] text-charcoal dark:text-text-dark">
                         {exp.item}
                       </span>
-                      <span className="text-[11px] px-2 py-0.2 rounded-full font-medium bg-[#FBEEE5] dark:bg-[#33241A] text-terracotta dark:text-terracotta-dark">
+                      <span className="text-[11px] px-2 py-0.2 rounded-full font-medium bg-[#FFF0EB] dark:bg-[#3D160A] text-terracotta dark:text-terracotta-dark">
                         {exp.category}
                       </span>
                     </div>

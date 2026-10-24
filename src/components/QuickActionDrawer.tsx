@@ -48,7 +48,7 @@ export const QuickActionDrawer: React.FC<QuickActionDrawerProps> = ({
               onClose();
               onSelectAction('expense');
             }}
-            className="w-full p-3.5 rounded-xl border border-sand dark:border-sand-dark bg-[#FBEEE5]/40 dark:bg-[#33241A]/40 hover:bg-[#FBEEE5]/70 flex items-center justify-between text-left transition-all active:scale-[0.99]"
+            className="w-full p-3.5 rounded-xl border border-sand dark:border-sand-dark bg-[#FFF0EB]/60 dark:bg-[#3D160A]/40 hover:bg-[#FFF0EB] flex items-center justify-between text-left transition-all active:scale-[0.99]"
           >
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-terracotta dark:bg-terracotta-dark text-white dark:text-[#17150F] flex items-center justify-center font-bold">
